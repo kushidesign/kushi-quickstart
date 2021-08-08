@@ -10,7 +10,9 @@
 ;; You can also define defclasses in the namespace you are using them in.
 
 (defclass headline
-  :.absolute-centered
+  :.absolute
+  :top--0
+  :left--0
   :ff--Inter|sans-serif
   :fs--200px
   :tt--u

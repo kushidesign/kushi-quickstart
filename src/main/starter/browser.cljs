@@ -1,4 +1,4 @@
-(ns starter.browser
+(ns ^:dev-always starter.browser
   (:require
 
    ;; Require various functions and macros from kushi.core
@@ -8,7 +8,6 @@
    ;;   in a dedicated namespace in your project and require that namespace once in your
    ;;   core/main namespace like we are doing here. All defclasses will be available globally.
    [starter.shared-styles]
-
    [reagent.dom :as rdom]))
 
 
@@ -66,10 +65,13 @@
 
 ;; Using kushi.core/defkeyframes macro to define keyframes.
 ;; Note this example uses kushi.core/cssfn: (cssfn :rotateX :0deg). You could also just type "rotateX(0deg)".
-(defkeyframes :spinner
-  [[:12.5% :75%] {:transform (cssfn :rotateY :0deg)}]
-  [[:50% :53%] {:transform (cssfn :rotateY :180deg)}]
-  [:91% {:transform (cssfn :rotateY :0deg)}])
+(defkeyframes :y-axis-spinner
+  [:0% {:transform (cssfn :rotateY :0deg)}]
+  [:100% {:transform (cssfn :rotateY :360deg)}])
+
+(defkeyframes :x-axis-spinner
+  [:0% {:transform (cssfn :rotateX :0deg)}]
+  [:100% {:transform (cssfn :rotateX :360deg)}])
 
 
 
@@ -161,30 +163,39 @@
    :magentaish :#ec018b})
 
 ;; A subcomponent for the headline "layers"
-(defn headline [color transform]
+;; This uses the :.headline class defined in browser.shared-styles
+(defn headline-layer [color x y]
   [:div
    (sx :.headline
        [:c color]
-       [:transform transform])
+       [:left x]
+       [:top y])
    "Kushi"])
 
 ;; Main component
 (defn main-view []
   [:div
-   (sx :.flex-col-c
-       :ai--c)
+   (sx
+    ;; :.relative
+    :.flex-col-c
+    :ai--c)
    [:div
-    (sx :.flex-col-fe
+    (sx :.flex-col-sb
+        :ai--c
         :w--100%
-        :h--350px
-        [:transform (cssfn :translateY :-100px)])
-    [headline (:cyanish my-colors) "translate(calc(-50% - 17px), calc(-50% + 17px))"]
-    [headline (:yellowish my-colors) "translate(calc(-50% + 20px), calc(-50% + 8px))"]
-    [headline (:magentaish my-colors) "translate(calc(-50%), calc(-50%))"]
+        :h--300px)
+    [:div
+     (sx :.relative
+         :w--628px
+         :h--242px
+         :animation--x-axis-spinner:17s:linear:infinite)
+     [headline-layer (:cyanish my-colors) :-17px :17px]
+     [headline-layer (:yellowish my-colors) :20px :8px]
+     [headline-layer (:magentaish my-colors) 0 0]]
     [:div
      (sx :ta--center
          :ff--FiraCodeRegular|monospace|sans-serif
-         :animation--spinner:5s:infinite
+         :animation--y-axis-spinner:17s:linear:infinite
          :fs--18px
          :c--midnightblue)
      "Style Made Easy"]]])
