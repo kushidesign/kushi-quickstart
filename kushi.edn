@@ -20,5 +20,6 @@
  ;;         :lg {:max-width :1024px}
  ;;         :md {:max-width :768px}
  ;;         :sm {:max-width :640px}}
+  ;; :diagnostics? [:defclass :defclass-register :sx ]
  }
 

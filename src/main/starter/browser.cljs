@@ -8,6 +8,8 @@
    ;;   in a dedicated namespace in your project and require that namespace once in your
    ;;   core/main namespace like we are doing here. All defclasses will be available globally.
    [starter.shared-styles]
+
+   ;; This example uses reagent
    [reagent.dom :as rdom]))
 
 
@@ -183,24 +185,25 @@
     (sx :.flex-col-sb
         :ai--c
         :w--100%
-        :h--300px)
+        :h--283px
+        [:transform (cssfn :translateY "calc(-100vh / 8)")])
     [:div
      (sx :.relative
          :w--628px
          :h--242px
-         :animation--x-axis-spinner:17s:linear:infinite)
+         :animation--x-axis-spinner:12s:linear:infinite)
      [headline-layer (:cyanish my-colors) :-17px :17px]
      [headline-layer (:yellowish my-colors) :20px :8px]
      [headline-layer (:magentaish my-colors) 0 0]]
     [:div
-     (sx :ta--center
-         :ff--FiraCodeRegular|monospace|sans-serif
-         :animation--y-axis-spinner:17s:linear:infinite
-         :fs--18px
-         :c--midnightblue)
+     (sx
+      :.relative
+      :ta--center
+      :ff--FiraCodeRegular|monospace|sans-serif
+      :animation--y-axis-spinner:12s:linear:infinite
+      :fs--18px
+      :c--midnightblue)
      "Style Made Easy"]]])
-
-
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
 
