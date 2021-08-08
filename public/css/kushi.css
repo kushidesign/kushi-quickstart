@@ -36,19 +36,19 @@
 
 /*Atomic classes*/
 
-._g26003__flex-col-c {
+._k26003__flex-col-c {
   flex-direction: column;
   justify-content: center;
   display: flex;
 }
 
-._g26003__flex-col-sb {
+._k26003__flex-col-sb {
   flex-direction: column;
   justify-content: space-between;
   display: flex;
 }
 
-._g26003__headline {
+._k26003__headline {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -59,36 +59,36 @@
   mix-blend-mode: darken;
 }
 
-._g26003__relative {
+._k26003__relative {
   position: relative;
 }
 
 /*Component styles*/
 
-._r29594 {
+._w29220 {
   color: var(--color);
   left: var(--x);
   top: var(--y);
 }
 
-._e29621 {
+._f29222 {
   align-items: center;
 }
 
-._t29639 {
+._i29224 {
   align-items: center;
   width: 100%;
   height: 283px;
   transform: translateY(calc(-100vh / 8));
 }
 
-._t29641 {
+._x29226 {
   width: 628px;
   height: 242px;
   animation: x-axis-spinner 12s linear infinite;
 }
 
-._y29643 {
+._y29228 {
   text-align: center;
   font-family: FiraCodeRegular, monospace, sans-serif;
   animation: y-axis-spinner 12s linear infinite;

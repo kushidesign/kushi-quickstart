@@ -37,10 +37,29 @@ This will begin the compilation of the configured `:app` build and re-compile wh
 When you see a "Build completed." message your build is ready to be used.
 
 ```txt
-[:app] Build completed. (23 files, 4 compiled, 0 warnings, 7.41s)
+[:app] Compiling ...
+
+kushi.stylsheet/create-css-file
+Writing the following to public/css/kushi.css:
+    1 unique @font-face rule(s)
+    2 unique @keyframes rule(s)
+    4 unique defclasses
+    5 unique classes
+
+[:app] Build completed. (163 files, 3 compiled, 0 warnings
 ```
 
-You can now then open [http://localhost:8020](http://localhost:8020).
+NOTE: If, instead of the above, you see the following:
+```txt
+kushi.stylsheet/create-css-file
+Writing the following to public/css/kushi.css:
+    0 unique classes
+```
+Leave your build running and open `src/main/starter/browser.cljs` in your editor, then re-save it.
+
+<br>
+
+You can view this app at  [http://localhost:8020](http://localhost:8020).
 
 The app is only a very basic skeleton with the most useful development tools configured.
 
