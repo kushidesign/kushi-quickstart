@@ -8,7 +8,6 @@
    ;;   in a dedicated namespace in your project and require that namespace once in your
    ;;   core/main namespace like we are doing here. All defclasses will be available globally.
    [starter.shared-styles]
-
    ;; This example uses reagent
    [reagent.dom :as rdom]))
 
@@ -165,20 +164,34 @@
    :magentaish :#ec018b})
 
 ;; A subcomponent for the headline "layers"
-;; This uses the :.headline class defined in browser.shared-styles
+;; This example component also demonstrates the following:
+;; 1) Using a shared style - the :.headline class, which is defined in browser.shared-styles
+;; 2) Passing optional element attributes map to kushi.core/sx
+;; 3) Including the kushi-specific :f entry in the attributes map.
+;;    The value of :f must be the var-quoted name of the component function.
+;;    This will add a 'data-ns' attr to the resulting element, the value of which will be "starter.browser/headline-layer::headline-layer-wrapper:172". Useful for debugging.
+;; 4) Using the kushi-specific :prefix and :ident entry in the attributes map, in order to create your own selector name (instead of default auto-generated selector).
+;;    If you wanted to do this, you would typically just set the :prefix value once, globally, in your kushi.edn.
+
 (defn headline-layer [color x y]
-  [:div
-   (sx :.headline
-       [:c color]
-       [:left x]
-       [:top y])
-   "Kushi"])
+  (let [f #'headline-layer]
+    [:div
+     (sx
+      :.headline
+      [:c color]
+      [:left x]
+      [:top y]
+      {:prefix :kqs
+       :ident :headline-layer-wrapper
+       :f f
+       :on-click #(prn "clicked!")})
+     "Kushi"]))
 
 ;; Main component
 (defn main-view []
   [:div
    (sx
-    ;; :.relative
+    :h--100%
     :.flex-col-c
     :ai--c)
    [:div
