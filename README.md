@@ -68,7 +68,7 @@ Please see [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quick
 <br>
 
 ## Kushi Setup Details
-If you were to setup Kushi manually, starting with the base [`shadow-cljs` template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
+If you were to setup Kushi manually, starting with the base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
 
 #### 1) Add dependency & build hook in `shadow-cljs.edn`
 ```Clojure
@@ -82,7 +82,7 @@ If you were to setup Kushi manually, starting with the base [`shadow-cljs` templ
  :dependencies
  [[reagent "1.0.0"]
   ;;  kushi dependency
-  [org.clojars.paintparty/kushi "0.1.0-SNAPSHOT"]]
+  [org.clojars.paintparty/kushi "0.1.1"]]
 
  :dev-http
  {8020 "public"}
