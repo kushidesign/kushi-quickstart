@@ -79,25 +79,23 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  ;;  kushi dependency
-  [org.clojars.paintparty/kushi "0.1.1"]]
+  [org.clojars.paintparty/kushi "0.1.1"] ; kushi dependency
+  [binaryage/devtools "1.0.3"]]
 
  :dev-http
  {8020 "public"}
 
  :builds
  {:app
-  {:target :browser
+  {:build-hooks [(kushi.stylesheet/create-css-file)] ; kushi build hook
+
+   :target :browser
    :output-dir "public/js"
    :asset-path "/js"
 
    :modules
    {:main
-    {:init-fn starter.browser/init}}
-
-   ;;  kushi build hook
-   :build-hooks [(kushi.stylesheet/create-css-file)]
-   }}}
+    {:init-fn starter.browser/init}}}}}
 ```
 <br>
 
