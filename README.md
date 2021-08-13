@@ -21,14 +21,6 @@ This template is based on [shadow-cljs/browser-quickstart](https://github.com/sh
 git clone https://github.com/paintparty/kushi-quickstart.git kushi-quickstart
 cd kushi-quickstart
 npm install
-npx shadow-cljs server
-```
-
-This runs the `shadow-cljs` server process which all following commands will talk to. Just leave it running and open a new terminal to continue.
-
-The first startup takes a bit of time since it has to download all the dependencies and do some prep work. Once this is running we can get started.
-
-```txt
 npx shadow-cljs watch app
 ```
 
@@ -55,11 +47,17 @@ kushi.stylsheet/create-css-file
 Writing the following to public/css/kushi.css:
     0 unique classes
 ```
+
 Leave your build running and open `src/main/starter/browser.cljs` in your editor, then re-save it.
 
-<br>
+You can view this app at  [http://localhost:8020](http://localhost:8020). You should see a webpage with animated headline and byline that looks like the screenshot below. If you don't then try to resave the `browser.cljs` as per the suggestion above.
 
-You can view this app at  [http://localhost:8020](http://localhost:8020).
+<img width=600 src="./screenshot.jpg"/>
+
+<br>
+<br>
+<br>
+<br>
 
 The app is only a very basic skeleton with the most useful development tools configured.
 
