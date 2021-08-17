@@ -79,7 +79,7 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "0.1.1"] ; kushi dependency
+  [org.clojars.paintparty/kushi "0.1.2"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
