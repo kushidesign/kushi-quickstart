@@ -17,5 +17,4 @@
   :fs--200px
   :tt--u
   :font-style--italic
-  :mix-blend-mode--darken
-  )
+  :mix-blend-mode--darken)

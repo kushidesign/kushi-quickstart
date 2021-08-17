@@ -190,10 +190,9 @@
 ;; Main component
 (defn main-view []
   [:div
-   (sx
-    :h--100%
-    :.flex-col-c
-    :ai--c)
+   (sx :.flex-col-c
+       :h--100%
+       :ai--c )
    [:div
     (sx :.flex-col-sb
         :ai--c
