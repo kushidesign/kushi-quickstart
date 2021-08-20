@@ -192,30 +192,30 @@
   [:div
    (sx :.flex-col-c
        :h--100%
-       :ai--c )
+       :ai--c)
    [:div
-    (sx :.flex-col-sb
-        :ai--c
-        :w--100%
-        :h--283px
-        [:transform (cssfn :translateY "calc(-100vh / 8)")])
-    [:div
-     (sx :.relative
-         :w--628px
-         :h--242px
-         :animation--x-axis-spinner:12s:linear:infinite)
-     [headline-layer (:cyanish my-colors) :-17px :17px]
-     [headline-layer (:yellowish my-colors) :20px :8px]
-     [headline-layer (:magentaish my-colors) 0 0]]
-    [:div
-     (sx
-      :.relative
-      :ta--center
-      :ff--FiraCodeRegular|monospace|sans-serif
-      :animation--y-axis-spinner:12s:linear:infinite
-      :fs--18px
-      :c--midnightblue)
-     "Style Made Easy"]]])
+      (sx :.flex-col-sb
+          :ai--c
+          :w--100%
+          :h--283px
+          [:transform (cssfn :translateY "calc(-100vh / 8)")])
+      [:div
+       (sx :.relative
+           :w--628px
+           :h--242px
+           :animation--x-axis-spinner:12s:linear:infinite)
+       [headline-layer (:cyanish my-colors) :-17px :17px]
+       [headline-layer (:yellowish my-colors) :20px :8px]
+       [headline-layer (:magentaish my-colors) 0 0]]
+      [:div
+       (sx
+        :.relative
+        :ta--center
+        :ff--FiraCodeRegular|monospace|sans-serif
+        :animation--y-axis-spinner:12s:linear:infinite
+        :fs--16px
+        :c--midnightblue)
+       "kushi + shadow-cljs quickstart template"]]])
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
 
