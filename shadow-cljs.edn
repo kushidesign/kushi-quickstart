@@ -14,11 +14,11 @@
 
  :builds
  {:app
-  {:build-hooks [(kushi.stylesheet/create-css-file)] ; kushi build hook
+  {:dev {:closure-defines {kushi.core/KUSHIDEBUG true}}
+   :build-hooks [(kushi.stylesheet/create-css-file)] ; kushi build hook
    :target :browser
    :output-dir "public/js"
    :asset-path "/js"
-
    :modules
    {:main
     {:init-fn starter.browser/init}}}}}
