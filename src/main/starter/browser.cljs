@@ -1,13 +1,20 @@
-(ns ^:dev-always starter.browser
+(ns starter.browser
   (:require
 
    ;; Require various functions and macros from kushi.core
-   [kushi.core :refer (sx clean! inject-stylesheet add-font-face defkeyframes cssfn)]
+   [kushi.core :refer (sx cssfn inject-stylesheet add-font-face defkeyframes cssfn clean! )]
 
-   ;; If you are using defclasses to share styles, it is good practice to defined them all
-   ;;   in a dedicated namespace in your project and require that namespace once in your
-   ;;   core/main namespace like we are doing here. All defclasses will be available globally.
+   ;; IMPORTANT - If you are using defclasses to share styles, it is good practice to defined them all
+   ;;   in a dedicated namespace. To ensure all of these defclasses will be available globally,
+   ;;   you must require them (as we are doing here) in the ns that corresponds to your main module.
+   ;;   This require must come before the requires of any other namespaces which contain ui code that
+   ;;   uses one of your defclasses. As you can see in the example below, our shared-styles ns is
+   ;;   required BEFORE the starter.badges ns, which contains a component that uses a shared class.
+   ;;   Alternatively, you can preload this namespace by including it in the :preloads list in your
+   ;;   shadow-cljs.edn config file (see this project's shadow-cljs.edn for example).
    [starter.shared-styles]
+   [starter.badges :as badges]
+
    ;; This example uses reagent
    [reagent.dom :as rdom]))
 
@@ -181,7 +188,7 @@
       [:c color]
       [:left x]
       [:top y]
-      {:prefix :kqs
+      {:prefix :kqs-
        :ident :headline-layer-wrapper
        :f f
        :on-click #(prn "clicked!")})
@@ -189,33 +196,36 @@
 
 ;; Main component
 (defn main-view []
-  [:div
-   (sx :.flex-col-c
-       :h--100%
-       :ai--c)
+  [:<>
    [:div
-      (sx :.flex-col-sb
-          :ai--c
-          :w--100%
-          :h--283px
-          [:transform (cssfn :translateY "calc(-100vh / 8)")])
-      [:div
-       (sx :.relative
-           :w--628px
-           :h--242px
-           :animation--x-axis-spinner:12s:linear:infinite)
-       [headline-layer (:cyanish my-colors) :-17px :17px]
-       [headline-layer (:yellowish my-colors) :20px :8px]
-       [headline-layer (:magentaish my-colors) 0 0]]
-      [:div
-       (sx
-        :.relative
-        :ta--center
-        :ff--FiraCodeRegular|monospace|sans-serif
-        :animation--y-axis-spinner:12s:linear:infinite
-        :fs--16px
-        :c--midnightblue)
-       "kushi + shadow-cljs quickstart template"]]])
+    (sx :.flex-col-c
+        :h--100%
+        :ai--c)
+    [:div
+     (sx :.flex-col-sb
+         :ai--c
+         :w--100%
+         :h--293px
+         [:transform (cssfn :translateY "calc(-100vh / 8)")])
+     [:div
+      (sx :.relative
+          :.twirl
+          :animation-name--x-axis-spinner
+          :w--628px
+          :h--242px)
+      [headline-layer (:cyanish my-colors) :-17px :17px]
+      [headline-layer (:yellowish my-colors) :20px :8px]
+      [headline-layer (:magentaish my-colors) 0 0]]
+     [:div
+      (sx
+       :.relative
+       :.twirl
+       :ta--center
+       :ff--FiraCodeRegular|monospace|sans-serif
+       :fs--16px
+       :c--midnightblue)
+      "kushi + shadow-cljs quickstart template"]]]
+   [badges/octocat]])
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
 
