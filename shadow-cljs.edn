@@ -2,8 +2,7 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"
-  "../kushi/src"]
+  "src/test"]
 
  :dependencies
  [[reagent "1.0.0"]
@@ -24,4 +23,4 @@
    :asset-path "/js"
    :modules
    {:main
-    {:init-fn starter.browser/init}}}}}
+    {:init-fn starter.browser/init}}}}}}
