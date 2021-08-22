@@ -2,11 +2,12 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"]
+  "src/test"
+  "../kushi/src"]
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "0.1.2"] ; kushi dependency
+  [org.clojars.paintparty/kushi "0.1.3"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
@@ -14,9 +15,11 @@
 
  :builds
  {:app
-  {:dev {:closure-defines {kushi.core/KUSHIDEBUG true}}
-   :build-hooks [(kushi.stylesheet/create-css-file)] ; kushi build hook
-   :target :browser
+  {:target :browser
+   :build-hooks [(kushi.core/kushi-debug)
+                 (kushi.stylesheet/create-css-file)] ; kushi build hooks
+   :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi. See readme for details & options.
+   :devtools {:preloads [starter.shared-styles] ; Optionally preload your project's namespace that contains shared styles defined with kushi.core/defclass.
    :output-dir "public/js"
    :asset-path "/js"
    :modules
