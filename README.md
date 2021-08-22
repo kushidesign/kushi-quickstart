@@ -1,7 +1,7 @@
-# Kushi quickstart
-[Kushi](https://github.com/paintparty/kushi) is a complete styling solution for ClojureScript.
+# kushi quickstart
+[kushi](https://github.com/paintparty/kushi) is a complete styling solution for ClojureScript.
 
-This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the main file at `src/main/starter/browser.cljs`
+This template demonstrates how to setup a project with kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the main file at `src/main/starter/browser.cljs`
 
 This template is based on [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser).
 
@@ -79,7 +79,7 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "0.1.2"] ; kushi dependency
+  [org.clojars.paintparty/kushi "0.1.3"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
@@ -87,9 +87,11 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
  :builds
  {:app
-  {:build-hooks [(kushi.stylesheet/create-css-file)] ; kushi build hook
-
-   :target :browser
+  {:target :browser
+   :build-hooks [(kushi.core/kushi-debug)
+                 (kushi.stylesheet/create-css-file)] ; kushi build hooks
+   :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi. See readme for details & options.
+   :devtools {:preloads [starter.shared-styles] ; Optionally preload your project's namespace that contains shared styles defined with kushi.core/defclass.
    :output-dir "public/js"
    :asset-path "/js"
 
@@ -102,11 +104,11 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 #### 2) Create a `kushi.edn` at your project's root
 
 ```Clojure
-;; This is a map with, at minimum, a `:static-css-dir` entry.
+;; This is a map with, at minimum, a `:css-dir` entry.
 ;; This must be relative to project root e.g "public/css" or "resources/public/css".
 ;; Please see the provided kushi.edn file for additional options.
 
-{:static-css-dir "public/css"}
+{:css-dir "public/css"}
 ```
 <br>
 
@@ -143,4 +145,4 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
 <br>
 
-Please see `src/main/starter/browser.cljs` and `src/main/starter/shared_styles.cljs` for details on requiring and using kushi's macros and functions.
+Please see `src/main/starter/browser.cljs` and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.
