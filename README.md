@@ -91,7 +91,7 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
    :build-hooks [(kushi.core/kushi-debug)
                  (kushi.stylesheet/create-css-file)] ; kushi build hooks
    :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi. See readme for details & options.
-   :devtools {:preloads [starter.shared-styles] ; Optionally preload your project's namespace that contains shared styles defined with kushi.core/defclass.
+   :devtools {:preloads [starter.shared-styles]} ; Optionally preload your project's namespace that contains shared styles defined with kushi.core/defclass.
    :output-dir "public/js"
    :asset-path "/js"
 
