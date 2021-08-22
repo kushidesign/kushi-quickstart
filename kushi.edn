@@ -1,6 +1,6 @@
 {
  ;; REQUIRED: Must be relative to project root e.g "public/css" or "resources/public/css".
- :static-css-dir "public/css"
+ :css-dir "public/css"
 
  ;;  Optional. Name of generated css file. Defaults to kushi.css.
  ;; :css-filename "my-kushi-styles.css"
@@ -20,6 +20,6 @@
  ;;         :lg {:max-width :1024px}
  ;;         :md {:max-width :768px}
  ;;         :sm {:max-width :640px}}
-  ;; :diagnostics? [:defclass :defclass-register :sx ]
+ ;; :diagnose [:defclass :defclass-register :sx]
  }
 
