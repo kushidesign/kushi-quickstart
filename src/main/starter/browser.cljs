@@ -10,8 +10,6 @@
    ;;   This require must come before the requires of any other namespaces which contain ui code that
    ;;   uses one of your defclasses. As you can see in the example below, our shared-styles ns is
    ;;   required BEFORE the starter.badges ns, which contains a component that uses a shared class.
-   ;;   Alternatively, you can preload this namespace by including it in the :preloads list in your
-   ;;   shadow-cljs.edn config file (see this project's shadow-cljs.edn for example).
    [starter.shared-styles]
    [starter.badges :as badges]
 
