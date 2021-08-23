@@ -28,24 +28,28 @@ This will begin the compilation of the configured `:app` build and re-compile wh
 
 When you see a "Build completed." message your build is ready to be used.
 
-```txt
-[:app] Compiling ...
+<pre lang="txt">
+<code>[:app] Compiling ...
 
-kushi.stylsheet/create-css-file
-Writing the following to public/css/kushi.css:
-    1 unique @font-face rule(s)
-    2 unique @keyframes rule(s)
-    4 unique defclasses
-    5 unique classes
+<b>kushi v0.1.4</b>
+
+Writing: public/css/kushi.css ...
+
+1 @font-face rules
+2 @keyframes rules
+7 defclasses
+7 classes
 
 [:app] Build completed. (163 files, 3 compiled, 0 warnings
-```
+</code>
+</pre>
+
 
 NOTE: If, instead of the above, you see the following:
 ```txt
-kushi.stylsheet/create-css-file
-Writing the following to public/css/kushi.css:
-    0 unique classes
+Writing: public/css/kushi.css ...
+
+0 unique classes
 ```
 
 Leave your build running and open `src/main/starter/browser.cljs` in your editor, then re-save it.
@@ -65,10 +69,10 @@ Please see [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quick
 
 <br>
 
-## Kushi Setup Details
-If you were to setup Kushi manually, starting with the base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
+## Manual Setup Details
+If you were to setup kushi manually, starting with the base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
 
-#### 1) Add dependency & build hook in `shadow-cljs.edn`
+#### 1) Add dependency, build hooks, and build-options in `shadow-cljs.edn`
 ```Clojure
 ;; shadow-cljs configuration
 
@@ -79,7 +83,7 @@ If you were to setup Kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "0.1.3"] ; kushi dependency
+  [org.clojars.paintparty/kushi "0.1.4"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
