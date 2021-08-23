@@ -1,4 +1,4 @@
-# kushi quickstart
+# kushi : quickstart 
 [kushi](https://github.com/paintparty/kushi) is a complete styling solution for ClojureScript.
 
 This template demonstrates how to setup a project with kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the main file at `src/main/starter/browser.cljs`
