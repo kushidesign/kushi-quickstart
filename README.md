@@ -26,19 +26,14 @@ npx shadow-cljs watch app
 
 This will begin the compilation of the configured `:app` build and re-compile whenever you change a file.
 
-When you see a "Build completed." message your build is ready to be used.
+When you see a kushi report followed by a "Build completed." message (from shadow-cljs) your build is ready to be used.
 
 <pre lang="txt">
 <code>[:app] Compiling ...
 
-<b>kushi v0.1.4</b>
-
-Writing: public/css/kushi.css ...
-
-1 @font-face rules
-2 @keyframes rules
-7 defclasses
-7 classes
+<b>[kushi v1.0.0-alpha]</b>
+   Writing to resources/public/css/kushi.css ...
+   (1 keyframes rule, 125 style rules)
 
 [:app] Build completed. (163 files, 3 compiled, 0 warnings
 </code>
@@ -83,7 +78,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "0.1.4"] ; kushi dependency
+  [org.clojars.paintparty/kushi "1.0.0-alpha"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
@@ -94,7 +89,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
   {:target :browser
    :build-hooks [(kushi.core/kushi-debug)
                  (kushi.stylesheet/create-css-file)] ; kushi build hooks
-   :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi. See readme for details & options.
+   :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi.
    :devtools {:preloads [starter.shared-styles]} ; Optionally preload your project's namespace that contains shared styles defined with kushi.core/defclass.
    :output-dir "public/js"
    :asset-path "/js"
@@ -135,7 +130,8 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
   <link rel="stylesheet" href="./css/kushi.css" type="text/css">
 
   <!--- Include this tag for zippy hot-reload previews when developing -->
-  <style type="text/css" id="_kushi-dev_"></style>
+  <style type="text/css" id="_kushi-rules_"></style>
+  <style type="text/css" id="_kushi-rules-shared_"></style>
 
   <title>Kushi Quickstart</title>
 </head>

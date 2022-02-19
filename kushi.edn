@@ -1,25 +1,101 @@
+
 {
- ;; REQUIRED: Must be relative to project root e.g "public/css" or "resources/public/css".
+ ;; REQUIRED.
  :css-dir "public/css"
 
- ;;  Optional. Name of generated css file. Defaults to kushi.css.
- ;; :css-filename "my-kushi-styles.css"
 
- ;; If this is defined it will prepend to selectors as parent element. Useful for scoping.
- ;; :parent :#my-target-div
 
- ;; If this is defined it will use this plus call-site supplied :ident for classnames, instead of auto-generated hash
- ;; :prefix :my-prefix
 
- ;; If this is defined it will override the default :data-ns key used for attaching ns info to element attribute (dev only)
- ;; :ns-attr-key :data-foo
 
- ;;  Optionally defined your own breakpoint scale to override the kushi default breakpoint scale.
- ;; :media {:2xl {:max-width :1536px}
- ;;         :xl {:max-width :1280px}
- ;;         :lg {:max-width :1024px}
- ;;         :md {:max-width :768px}
- ;;         :sm {:max-width :640px}}
- ;; :diagnose [:defclass :defclass-register :sx]
- }
+  ;;  :diagnose             nil
+  ;;    :diagnose-idents      nil
+  ;;    :select-ns            nil
+  ;;    :__enable-caching?__  false
+  ;;    :post-build-report?   true
+  ;;    :report-cache-update? true
+     :reporting-style      :banner
+  ;;    :warning-style        :banner
+  ;;    :ancestor             nil
+  ;;    :prefix               nil
+  ;;    :defclass-prefix      nil
+  ;;    :atomic-class-prefix  nil
+  ;;    :keyframes-prefix     nil
+  ;;    :map-mode?            false
+  ;;  :css-dir              nil
+   :write-stylesheet?    false
+  ;;  :runtime-injection?   true
+  ;;  :handle-duplicates    nil
+   :log-clean!?          false
 
+
+
+
+
+ ;; Optional. Name of generated css file.
+ ;; Defaults to "kushi.css".
+
+;;  :css-filename "my-kushi-styles.css"
+
+
+
+ ;; Optional. Narrow kushi compilation down to select namespaces.
+
+;;  :select-ns [app.ui.foo app.ui.bar]
+ ;; :select-ns [app.ui.*] ;; will target all namespaces under app.ui
+
+
+
+ ;; Optionally prepend an ancestor element to selectors.
+ ;; Useful for scoping.
+
+;;  :ancestor :#my-target-div
+
+
+
+ ;; Optional. If defined, AND an :ident value is supplied at
+ ;; the `sx` call site, this will be used for classnames,
+ ;; instead of auto-generated hash.
+
+;;  :prefix "_my-prefix__"
+
+
+ ;; Optional. If defined, this will be used as the prefix for
+ ;; the classnames of shared styles (defined with defclass).
+ ;; Defaults to "_kushi_"
+
+;;  :defclass-prefix "_my-shared-class-prefix__"
+
+
+
+ ;; Optional. If defined, this will be used as an attribute
+ ;; name for attaching source file info to the rendered
+ ;; element in the DOM (dev only).
+ ;; Defaults to "data-cljs"
+
+;;  :data-attr-name "data-foo"
+
+
+
+ ;; Optionally defined your own breakpoint scale to override
+ ;; kushi's default breakpoint scale.
+
+;;  :media [:2xl {:max-width :1536px}
+;;          :xl {:max-width :1280px}
+;;          :lg {:max-width :1024px}
+;;          :md {:max-width :768px}
+;;          :sm {:max-width :640px}]
+
+
+
+ ;; Optional setting for printing-style of kushi compilation
+ ;; info to the console running your build.
+ ;; Defaults to :simple.
+
+;;  :reporting-style :banner
+
+
+
+ ;; Optional setting to silence the post-build report.
+
+;;  :post-build-report?  false
+}
