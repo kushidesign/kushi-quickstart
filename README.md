@@ -1,4 +1,4 @@
-# kushi : quickstart 
+# kushi : quickstart
 [kushi](https://github.com/paintparty/kushi) is a complete styling solution for ClojureScript.
 
 This template demonstrates how to setup a project with kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the main file at `src/main/starter/browser.cljs`
@@ -31,7 +31,7 @@ When you see a kushi report followed by a "Build completed." message (from shado
 <pre lang="txt">
 <code>[:app] Compiling ...
 
-<b>[kushi v1.0.0-alpha]</b>
+<b>[kushi v1.0.0-alpha3]</b>
    Writing to resources/public/css/kushi.css ...
    (1 keyframes rule, 125 style rules)
 
@@ -78,7 +78,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.0.0"]
-  [org.clojars.paintparty/kushi "1.0.0-alpha"] ; kushi dependency
+  [org.clojars.paintparty/kushi "1.0.0-alpha3"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
@@ -145,4 +145,4 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
 <br>
 
-Please see `src/main/starter/browser.cljs` and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.
+Please see `src/main/starter/browser.cljs`, `src/main/starter/badges.cljs`, and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.
