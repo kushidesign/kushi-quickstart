@@ -2,12 +2,12 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"
-  "../kushi/src"]
+  "src/test"]
 
  :dependencies
  [[reagent "1.1.0"]
-  [org.clojars.paintparty/kushi "1.0.0-alpha2"] ; kushi dependency
+  [org.clojars.paintparty/kushi "1.0.0-alpha3"] ; kushi dependency
+  ;; [org.clojars.paintparty/par "1.1.0"]
   [binaryage/devtools "1.0.3"]]
 
  :dev-http

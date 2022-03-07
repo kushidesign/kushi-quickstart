@@ -2,8 +2,7 @@
   (:require
    ;; Require various functions and macros from kushi.core
    [kushi.core :refer (sx cssfn inject-stylesheet add-font-face add-system-font-stack defkeyframes cssfn)]
-   [kushi.gui :refer (gui)]
-   [kushi.theme :as theme]
+   [kushi.basetheme :as theme]
    ;; IMPORTANT - If you are using defclasses to share styles, it is good practice to defined them all
    ;;   in a dedicated namespace. To ensure all of these defclasses will be available globally,
    ;;   you must require them (as we are doing here) in the ns that corresponds to your main module.
@@ -12,7 +11,7 @@
    ;;   required BEFORE the starter.badges ns, which contains a component that uses a shared class.
    [starter.shared-styles]
    [starter.badges :as badges]
-   [par.core :refer-macros [!? ?]]
+  ;;  [par.core :refer-macros [!? ?]]
    ;; This example uses reagent
    [reagent.dom :as rdom]))
 
@@ -161,25 +160,26 @@
 
 
 
-
 ;; Now, some working code...
 
-;; Let's define a subcomponent for the headline "layers"
+;; First, we define a subcomponent for the banner headline "layers"
 ;; This example component demonstrates the following:
 ;; 1) Using shared styles, the :headline and :twirl classes, which are defined in browser.shared-styles.
 ;; 2) Using dynamic values for color and animation duration.
 
-(defn headline-layer [color duration]
+(defn headline-layer
+  [color duration]
   [:div
    (sx
     {:class [:headline :twirl]
      :style {:color              color
-             :width              :100%
-             :lh                 :38.4vw
-             :animation-duration duration}})
+             :animation-duration duration
+             :animation-name     :x-axis-spinner} })
    "Kushi"])
 
-;; Now let's define a subcomponent for the sub-header
+
+
+;; Next, we define a subcomponent for the sub-header
 ;; This example component demonstrates the following:
 
 ;; 1) Using kushi's shorthand syntax via tokenized keywords.
@@ -199,7 +199,9 @@
     :.relative
     :ta--center
     :ff--FiraCodeRegular|monospace|sans-serif
-    :fs--16px
+    :fs--12px
+    :sm:fs--14px
+    :fw--800
     :c--midnightblue
     {:prefix :kqs-
      :ident :twirling-subheader-wrapper
@@ -208,31 +210,35 @@ s])
 
 ;; Main component. Note that 2 out of 3 divs in this component just use
 ;; tokenized keywords and don't need to supply the optional attributes map to sx.
-
 (defn main-view []
-  [:<>
+  [:div
+   (sx {:style {:ff :system}})
+
+   [badges/links]
    [:div
-      (sx :.flex-col-c
-          :h--100%
-          :ai--c)
+    (sx :.flex-col-c
+        :h--100%
+        :ai--c
+        :.absolute-fill)
 
-      ;; In this div we are using both tokenized keywords and a :style map.
-      [:div
-       (sx :.flex-col-sb
-           :ai--c
-           :w--100%
-           {:style {:transform (cssfn :translateY "calc(-100vh / 8)")}})
+    ;; In this div we are using both tokenized keywords and a :style map.
+    [:div
+     (sx :.flex-col-sb
+         :ai--c
+         :w--100%
+         :h--200px
+         :sm:h--284px
+         :md:h--352px
+         {:style {:transform (cssfn :translateY "calc(-100vh / 8)")}})
 
-       [:div
-        (sx :.relative
-            {:class [:relative]
-             :style {:w :100vw
-                     :h :38.5vw}})
-        [headline-layer :#00adef :12s]
-        [headline-layer :#fef200 :3s]
-        [headline-layer :#ec018b :6s]]
-       [twirling-subheader "kushi + shadow-cljs quickstart template"]]]
-   [badges/links]])
+     [:div
+      (sx :.relative
+          :w--780px
+          :h--242px)
+      [headline-layer :#00adef :12s]
+      [headline-layer :#fef200 :3s]
+      [headline-layer :#ec018b :6s]]
+     [twirling-subheader "kushi + shadow-cljs quickstart template"]]]])
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
 

@@ -1,34 +1,6 @@
-
 {
  ;; REQUIRED.
  :css-dir "public/css"
-
-
-
-
-
-  ;;  :diagnose             nil
-  ;;    :diagnose-idents      nil
-  ;;    :select-ns            nil
-  ;;    :__enable-caching?__  false
-  ;;    :post-build-report?   true
-  ;;    :report-cache-update? true
-     :reporting-style      :banner
-  ;;    :warning-style        :banner
-  ;;    :ancestor             nil
-  ;;    :prefix               nil
-  ;;    :defclass-prefix      nil
-  ;;    :atomic-class-prefix  nil
-  ;;    :keyframes-prefix     nil
-  ;;    :map-mode?            false
-  ;;  :css-dir              nil
-   :write-stylesheet?    false
-  ;;  :runtime-injection?   true
-  ;;  :handle-duplicates    nil
-   :log-clean!?          false
-
-
-
 
 
  ;; Optional. Name of generated css file.
@@ -37,9 +9,22 @@
 ;;  :css-filename "my-kushi-styles.css"
 
 
+ ;; Optional. Set to false if you don't want css files
+ ;; written to disk for release builds.
+ ;; Defaults to true.
+
+;;  :write-stylesheet? false
+
+
+ ;; Optional. Set to true if you want runtime
+ ;; injection for release builds.
+ ;; Defaults to false.
+
+;;  :runtime-injection? false
+
+
 
  ;; Optional. Narrow kushi compilation down to select namespaces.
-
 ;;  :select-ns [app.ui.foo app.ui.bar]
  ;; :select-ns [app.ui.*] ;; will target all namespaces under app.ui
 
@@ -56,14 +41,23 @@
  ;; the `sx` call site, this will be used for classnames,
  ;; instead of auto-generated hash.
 
-;;  :prefix "_my-prefix__"
+;;  :prefix "_my-prefix_"
+
 
 
  ;; Optional. If defined, this will be used as the prefix for
  ;; the classnames of shared styles (defined with defclass).
- ;; Defaults to "_kushi_"
+ ;; Defaults to nil
 
-;;  :defclass-prefix "_my-shared-class-prefix__"
+;;  :defclass-prefix "_my-shared-class-prefix_"
+
+
+
+ ;; Optional. If defined, this will be used as the prefix for
+ ;; the classnames of the predifined shared styles that ship with kushi.
+ ;; Defaults to nil.
+
+  ;; :atomic-class-prefix   "_my-atomic-class-prefix_"
 
 
 
@@ -78,6 +72,7 @@
 
  ;; Optionally defined your own breakpoint scale to override
  ;; kushi's default breakpoint scale.
+ ;; This must be a vector of kwargs, not a map.
 
 ;;  :media [:2xl {:max-width :1536px}
 ;;          :xl {:max-width :1280px}
