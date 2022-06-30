@@ -2,8 +2,8 @@
   (:require
    ;; Require various functions and macros from kushi.core
    [kushi.core :refer (sx cssfn inject-stylesheet add-font-face add-system-font-stack defkeyframes cssfn)]
-   [kushi.basetheme :as theme]
-   ;; IMPORTANT - If you are using defclasses to share styles, it is good practice to defined them all
+   ;;  [kushi.basetheme :as theme]
+   ;;   IMPORTANT - If you are using defclasses to share styles, it is good practice to defined them all
    ;;   in a dedicated namespace. To ensure all of these defclasses will be available globally,
    ;;   you must require them (as we are doing here) in the ns that corresponds to your main module.
    ;;   This require must come before the requires of any other namespaces which contain ui code that
@@ -21,6 +21,7 @@
 ;; Optional.
 ;; Using kushi.core/inject-stylesheet to load a google font.
 ;; The additional "preconnect" hints will improve Google Fonts performance.
+
 (inject-stylesheet {:rel "preconnet"
                     :href "https://fonts.gstatic.com"
                     :cross-origin "anonymous"})
@@ -61,7 +62,7 @@
 ;; Using kushi.core/add-system-font-stack macro to add a system font stack.
 ;; The example below would write a total of 4 `@font-face` rules to your
 ;; kushi css file (`normal` and `italic` for both `300`("light") & `700`("bold")).
-(add-system-font-stack 300 700)
+(add-system-font-stack 300 900)
 
 
 
@@ -171,8 +172,15 @@
   [color duration]
   [:div
    (sx
-    {:class [:headline :twirl]
-     :style {:color              color
+    :.headline
+    :.twirl
+    {:style {:color              color
+             :animation-duration duration
+             :animation-name     :x-axis-spinner}})
+   #_(sx
+    :.headline
+    :.twirl
+    {:style {:color              color
              :animation-duration duration
              :animation-name     :x-axis-spinner} })
    "Kushi"])
@@ -195,6 +203,7 @@
 (defn twirling-subheader [s]
   [:div
    (sx
+    'kqs-twirling-subheader-wrapper
     :.twirl
     :.relative
     :ta--center
@@ -203,9 +212,7 @@
     :sm:fs--14px
     :fw--800
     :c--midnightblue
-    {:prefix :kqs-
-     :ident :twirling-subheader-wrapper
-     :on-click #(prn "clicked!")})
+    {:on-click #(prn "clicked!")})
 s])
 
 ;; Main component. Note that 2 out of 3 divs in this component just use
@@ -213,8 +220,6 @@ s])
 (defn main-view []
   [:div
    (sx {:style {:ff :system}})
-
-   [badges/links]
    [:div
     (sx :.flex-col-c
         :h--100%
@@ -238,7 +243,10 @@ s])
       [headline-layer :#00adef :12s]
       [headline-layer :#fef200 :3s]
       [headline-layer :#ec018b :6s]]
-     [twirling-subheader "kushi + shadow-cljs quickstart template"]]]])
+
+     [twirling-subheader "kushi + shadow-cljs quickstart template"]]]
+
+     [badges/links]])
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
 

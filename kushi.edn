@@ -1,7 +1,13 @@
 {
+
  ;; REQUIRED.
  :css-dir "public/css"
 
+ ;; Optionally enable caching of results.
+ ;; This creates a .kushi dir with edn files storing keys by hashed keys.
+ ;; This .kushi dir should be kept under version control.
+ ;; Defaults to true.
+ :enable-caching? false
 
  ;; Optional. Name of generated css file.
  ;; Defaults to "kushi.css".

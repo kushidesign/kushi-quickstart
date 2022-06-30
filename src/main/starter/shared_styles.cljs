@@ -11,14 +11,15 @@
 
 ;; You can also define defclasses in the namespace you are using them in.
 (defclass headline
-  :.absolute
+  :position--absolute
   :ta--center
   :w--100%
   :top--0
   :left---10px
   :sm:left---16px
   :md:left---24px
-  :ff--Inter|sans-serif
+  :ff--Inter|sys|sans-serif
+  :fw--900
   :fs--120px
   :sm:fs--182px
   :md:fs--249px

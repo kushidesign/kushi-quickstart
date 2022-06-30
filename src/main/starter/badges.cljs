@@ -1,77 +1,104 @@
 (ns starter.badges
   (:require
-   [kushi.core :refer (sx cssfn defclass)]
-   [reagent.core :as r]
-   [kushi.gui :refer (gui)]
-   ))
+   [kushi.core :refer (sx cssfn defclass merge-with-style)]
+   [kushi.ui.core :refer (defcom opts+children)]))
 
 
-(defn monotone-filter [deg]
-    (str "invert(49%) sepia(91%) saturate(1200%) hue-rotate(" deg ") brightness(0.6)"))
+;; ---------------------------------------------------------------
+;; DEFINING COMPONENTS
+;; Also see https://github.com/paintparty/kushi#defining-components
+;; ---------------------------------------------------------------
 
-;; Below is a contrived example of creating a reusable, primitive, stateless component using the kushi.gui/gui helper fn.
-;; This component, caled `monotone-icon-image`, renders an image and applies a monotone filter to it.
-;; In the use case below, it is used inside an application-specific, custom component called `twirling-badge`.
+;; The commented code below is a contrived example of creating a reusable, stateless, and composable component using `kushi.ui.core/defcom`.
 
-;; First, we will define a base "template" that we till build our component on top of.
-;; This isn't strictly necessary, but good practice if the base is something generic that will most likely be used again.
-;; In this case, our base template renders an image that will shrink, if necessary, to fit its parent.
-;; Please see `Defining Components` section of docs in main kushi repo for more info.
-(def icon-image-base
+;; (ns myapp.core
+;;   (:require
+;;    [kushi.core :refer [sx]]
+;;    [kushi.ui.core :refer [defcom]]))
+
+;; (defcom my-section
+;;   (let [{:keys [label label-attrs body-attrs]} &opts]
+;;     [:section
+;;      &attrs
+;;      (when label
+;;        [:div label-attrs label])
+;;      [:div body-attrs &children]]))
+
+;; `defcom` is a macro that returns a component rendering function which accepts an optional attributes map, plus any number of children.
+;; This means the signature at the call site mirrros hiccup itself.
+
+;; Under the hood, defcom pulls out any keys in attr map that start with `:-` and put them in a separate `opts` map.
+;; This allows passing in various custom options within the attributes map that will not clash with existing html attributes.
+;; This opts map can referenced be referenced in the defcom body with the `&opts` binding. `&attrs` and `&children` are also available.
+;; This ampersand-leading naming convention takes its cue from the special `&form` and `&env` bindings used by Clojure's own `defmacro`.
+
+;; Assuming your are using something like Reagent, you can use the resulting `my-section` component in your application code like so:
+
+;; Basic, no label
+;; [my-section [:p "Child one"] [:p "Child two"]]
+
+;; With optional label
+;; [my-section (sx {:-label "My Label"}) [:p "Child one"] [:p "Child two"]]
+
+;; With all the options and additional styling
+;; [my-section
+;;  (sx
+;;   'my-section-wrapper    ; Provides custom classname (instead of auto-generated).
+;;   :.xsmall               ; Font-size utility class.
+;;   :p--1rem               ; Padding inside component.
+;;   :b--1px:solid-black    ; Border around component.
+;;   {:-label "My Label"
+;;    :-label-attrs (sx :.huge :c--red)
+;;    :-body-attrs (sx :bgc--#efefef)})
+;;  [:p "Child one"]
+
+
+;; For more in-depth info on defmacro see https://github.com/paintparty/kushi#manually-defining-complex-components.
+
+;; Below, `contained-image` and `small-badge` both use defmacro to create reusable components.
+
+(defclass grayscale
+  {:filter [[(cssfn :grayscale 1)
+             (cssfn :contrast 1)
+             (cssfn :brightness 1)]]})
+
+(defclass small-badge
+  :w--20px
+  :h--20px
+  :o--1
+  :hover:o--0.5)
+
+(defcom contained-image
   [:img
-   (sx {:style {:max-height :100%
-                :max-width  :100%
-                :object-fit :contain}})])
+   (merge-with-style
+    (sx 'grayscale-icon-image
+        {:style {:max-height :100%
+                 :max-width  :100%
+                 :object-fit :contain}})
+    &attrs)])
 
+(defcom twirling-badge
+  [:a
+   (merge-with-style (sx :.pointer) &attrs)
+   &children])
 
-;; In this example, we are using a css filter to make a
-;; colorless (grayscale) variant on top of icon-image-base.
-;; kushi.gui/gui takes a hiccup template like the one we've defined above,
-;; as well as an attributes map to augment the base template's styling & attributes.
-;; A function is returned, the signature of which mirrors hiccup
-;; itself - it expects an optional map of attributes, and any number of children.
-(def grayscale-icon-image
-    (gui icon-image-base
-         (sx {:style {:filter [[(cssfn :grayscale 1)
-                                (cssfn :contrast 1.5)
-                                (cssfn :brightness 1.5)]]}})))
-
-;; Now we can use it inside our app-specific, custom component.
-(defn twirling-badge [href src]
-    [:a
-     (sx {:href href :target :_blank})
-     [grayscale-icon-image
-      (sx {:class         [:.twirl :.mummy]
-           :data-selected true
-           :style         {:w       :25px
-                           :h       :25px
-                           :o       0.7
-                           :hover:o 1}
-           :src           src})]])
+(def link-data [{:href "https://github.com/paintparty/kushi"
+                 :src  "graphics/github.svg"}
+                {:href "https://clojars.org/org.clojars.paintparty/kushi"
+                 :src "graphics/clojars-logo-bw2.png"}
+                {:href "https://twitter.com"
+                 :src "graphics/twitter.svg"}])
 
 (defn links []
-  #_[:div
-   (sx :mt--20px)
-
-   #_[ui/primary-button (sx {:on-click lightswitch!}) "¯\\_(ツ)_/¯"]
-   #_[ui/secondary-button (sx {:style {:hover:bgc :aliceblue}}) "hi" "bye"]
-   ]
   [:div
-     (sx {:class [:absolute :flex-row-c]
-          :style {:w  :100%
-                  :mt :28px}})
-     [:div
-      (sx {:class [:flex-row-c]
-           :style {:w          :70px
-                   :>a:display :inline-flex}})
+   (sx {:class [:absolute :flex-row-c]
+        :style {:w  :100% :mbs :38px}})
+   (into
+    [:div
+     (sx {:class [:flex-row-sa]
+          :style {:w          :100px
+                  :>a:display :inline-flex}})]
+    (for [{:keys [href src]} link-data]
       [twirling-badge
-       "https://github.com/paintparty/kushi"
-       "graphics/github.svg"]
-    ;; Example usage below of our example component
-    ;; Uncomment to see them on page
-      #_[twirling-badge
-         "https://clojars.org/org.clojars.paintparty/kushi"
-         "graphics/clojars-logo.png"]
-      #_[twirling-badge
-         "https://twitter.svg"
-         "graphics/twitter.svg"]]])
+       {:href href :target :_blank }
+       [contained-image (sx :.grayscale :.small-badge {:src src})]]))])

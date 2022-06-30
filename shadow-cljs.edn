@@ -6,8 +6,7 @@
 
  :dependencies
  [[reagent "1.1.0"]
-  [org.clojars.paintparty/kushi "1.0.0-alpha3"] ; kushi dependency
-  ;; [org.clojars.paintparty/par "1.1.0"]
+  [org.clojars.paintparty/kushi "1.0.0-alpha9"] ; kushi dependency
   [binaryage/devtools "1.0.3"]]
 
  :dev-http
@@ -17,6 +16,7 @@
  {:app
   {:devtools {:log false}
    :target :browser
+   :compiler-options {:output-feature-set :es8}
    :build-hooks [(kushi.core/kushi-debug)
                  (kushi.stylesheet/create-css-file)] ; kushi build hooks
    :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi.
