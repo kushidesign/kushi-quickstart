@@ -1,7 +1,9 @@
 (ns starter.badges
   (:require
-   [kushi.core :refer (sx cssfn defclass merge-with-style)]
-   [kushi.ui.core :refer (defcom opts+children)]))
+   [kushi.core :refer [sx defclass merge-attrs]]
+   [kushi.ui.core :refer [defcom]]
+   [kushi.ui.button.core :refer [button]]
+   [kushi.ui.tooltip.core :refer [tooltip]]))
 
 
 ;; ---------------------------------------------------------------
@@ -32,7 +34,7 @@
 ;; This opts map can referenced be referenced in the defcom body with the `&opts` binding. `&attrs` and `&children` are also available.
 ;; This ampersand-leading naming convention takes its cue from the special `&form` and `&env` bindings used by Clojure's own `defmacro`.
 
-;; Assuming your are using something like Reagent, you can use the resulting `my-section` component in your application code like so:
+;; Assuming you are using something like Reagent, you can use the resulting `my-section` component in your application code like so:
 
 ;; Basic, no label
 ;; [my-section [:p "Child one"] [:p "Child two"]]
@@ -55,12 +57,12 @@
 
 ;; For more in-depth info on defmacro see https://github.com/paintparty/kushi#manually-defining-complex-components.
 
-;; Below, `contained-image` and `small-badge` both use defmacro to create reusable components.
+;; Below, `contained-image` and `twirling-badge` both use defmacro to create reusable components.
+;; They also use kushi.core/merge-attrs to merge user-passed attributes.
+
 
 (defclass grayscale
-  {:filter [[(cssfn :grayscale 1)
-             (cssfn :contrast 1)
-             (cssfn :brightness 1)]]})
+  {:filter "grayscale(1) contrast(1) brightness(1) invert()"})
 
 (defclass small-badge
   :w--20px
@@ -70,35 +72,46 @@
 
 (defcom contained-image
   [:img
-   (merge-with-style
+   (merge-attrs
     (sx 'grayscale-icon-image
-        {:style {:max-height :100%
-                 :max-width  :100%
-                 :object-fit :contain}})
+        :max-height--100%
+        :max-width--100%
+        :object-fit--contain)
     &attrs)])
 
-(defcom twirling-badge
-  [:a
-   (merge-with-style (sx :.pointer) &attrs)
+(defcom icon-badge-link
+  [button
+   (merge-attrs (sx :.pointer :.minimal) &attrs)
    &children])
 
-(def link-data [{:href "https://github.com/paintparty/kushi"
-                 :src  "graphics/github.svg"}
-                {:href "https://clojars.org/org.clojars.paintparty/kushi"
-                 :src "graphics/clojars-logo-bw2.png"}
-                {:href "https://twitter.com"
-                 :src "graphics/twitter.svg"}])
+(def link-data
+  [{:href "https://github.com/paintparty/kushi"
+    :src  "graphics/github.svg"
+    :inline-offset :end
+    :tooltip-text "View project on github"}
+   {:href "https://clojars.org/org.clojars.paintparty/kushi"
+    :src  "graphics/clojars-logo-bw2.png"
+    :inline-offset :start
+    :tooltip-text "View project at clojars.org"}
+   #_{:href "https://twitter.com"
+      :src  "graphics/twitter.svg"}])
 
 (defn links []
   [:div
-   (sx {:class [:absolute :flex-row-c]
-        :style {:w  :100% :mbs :38px}})
+   (sx :.absolute
+       :.flex-row-c
+       :w--100%
+       :mbs--38px)
    (into
     [:div
-     (sx {:class [:flex-row-sa]
-          :style {:w          :100px
-                  :>a:display :inline-flex}})]
-    (for [{:keys [href src]} link-data]
-      [twirling-badge
-       {:href href :target :_blank }
-       [contained-image (sx :.grayscale :.small-badge {:src src})]]))])
+     (sx :.flex-row-sa
+         :w--100px
+         :>button:display--inline-flex)]
+
+    (for [{:keys [href src inline-offset tooltip-text]} link-data]
+      [icon-badge-link
+       {:href href :target :_blank}
+       [contained-image (sx :.grayscale :.small-badge {:src src})]
+       [tooltip (sx :ff--FiraCodeRegular|monospace|sans-serif
+                    {:-inline-offset inline-offset})
+        tooltip-text]]))])

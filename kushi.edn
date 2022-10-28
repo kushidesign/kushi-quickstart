@@ -1,102 +1,219 @@
 {
 
+ ;; Needs to be a path to a dir, e.g. "public/css"
+ ;; The example above would write to "public/css/kushi.css"
  ;; REQUIRED.
- :css-dir "public/css"
 
- ;; Optionally enable caching of results.
- ;; This creates a .kushi dir with edn files storing keys by hashed keys.
- ;; This .kushi dir should be kept under version control.
- ;; Defaults to true.
- :enable-caching? false
+ :css-dir                "public/css"
 
- ;; Optional. Name of generated css file.
+
+ ;; All the entries below are optional. The default values are shown.
+
+;;........................................................................
+
+
+
+ ;; You can specify your own filename, e.g. "mystyles.css"
  ;; Defaults to "kushi.css".
 
-;;  :css-filename "my-kushi-styles.css"
-
-
- ;; Optional. Set to false if you don't want css files
- ;; written to disk for release builds.
- ;; Defaults to true.
-
-;;  :write-stylesheet? false
-
-
- ;; Optional. Set to true if you want runtime
- ;; injection for release builds.
- ;; Defaults to false.
-
-;;  :runtime-injection? false
+ ;; :css-filename           "kushi.css"
 
 
 
- ;; Optional. Narrow kushi compilation down to select namespaces.
-;;  :select-ns [app.ui.foo app.ui.bar]
- ;; :select-ns [app.ui.*] ;; will target all namespaces under app.ui
+;;........................................................................
 
 
-
- ;; Optionally prepend an ancestor element to selectors.
- ;; Useful for scoping.
-
-;;  :ancestor :#my-target-div
-
-
-
- ;; Optional. If defined, AND an :ident value is supplied at
- ;; the `sx` call site, this will be used for classnames,
- ;; instead of auto-generated hash.
-
-;;  :prefix "_my-prefix_"
-
-
-
- ;; Optional. If defined, this will be used as the prefix for
- ;; the classnames of shared styles (defined with defclass).
- ;; Defaults to nil
-
-;;  :defclass-prefix "_my-shared-class-prefix_"
-
-
-
- ;; Optional. If defined, this will be used as the prefix for
- ;; the classnames of the predifined shared styles that ship with kushi.
+ ;; Fully qualified name of user theming map.
+ ;; This needs to be defined in a dedicated namespace, and saved as a `.clj` or `.cljc` file.
+ ;; e.g. `myproject.theme/theme`
  ;; Defaults to nil.
 
-  ;; :atomic-class-prefix   "_my-atomic-class-prefix_"
+ :theme                   starter.theme/user-theme
 
 
 
- ;; Optional. If defined, this will be used as an attribute
- ;; name for attaching source file info to the rendered
- ;; element in the DOM (dev only).
- ;; Defaults to "data-cljs"
-
-;;  :data-attr-name "data-foo"
+;;........................................................................
 
 
 
- ;; Optionally defined your own breakpoint scale to override
- ;; kushi's default breakpoint scale.
- ;; This must be a vector of kwargs, not a map.
+;; Optionally defined your own breakpoint scale to override
+;; kushi's default breakpoint scale.
+;; This must be a vector of kwargs, not a map.
 
-;;  :media [:2xl {:max-width :1536px}
-;;          :xl {:max-width :1280px}
-;;          :lg {:max-width :1024px}
-;;          :md {:max-width :768px}
-;;          :sm {:max-width :640px}]
-
-
-
- ;; Optional setting for printing-style of kushi compilation
- ;; info to the console running your build.
- ;; Defaults to :simple.
-
-;;  :reporting-style :banner
+;;  :media                   [:2xl {:max-width :1536px}
+;;                            :xl {:max-width :1280px}
+;;                            :lg {:max-width :1024px}
+;;                            :md {:max-width :768px}
+;;                            :sm {:max-width :640px}]
 
 
 
- ;; Optional setting to silence the post-build report.
+;;........................................................................
 
-;;  :post-build-report?  false
-}
+
+
+;; Optionally enable build caching.
+;; Defaults to false.
+
+;;  :caching?                false
+
+
+
+;;........................................................................
+
+
+
+;; Prepend to generated selectors, useful for narrowing scope.
+;; Usually would be the id of the "app" container, e.g "#app".
+
+;;  :selector-prepend        nil
+
+
+
+;;........................................................................
+
+
+
+ ;; Optionally narrow the scope of generated design tokens.
+ ;; Usually would be the id of the "app" container, e.g "#app".
+ ;; If nil, defaults to using ":root"
+
+;;  :design-tokens-root      nil
+
+
+
+;;........................................................................
+
+
+
+;; Optionally change the data- suffix that is used in dev builds.
+;; This is the data-sx attribute that gets added to every element in the dom on
+;; which you use the sx-macro. It gives you the filename and line-number of the
+;; original callsite which is useful in debugging.
+;; Defaults to "sx".
+
+;;  :data-attr-name          "sx"
+
+
+
+;;........................................................................
+
+
+
+ ;; Runtime injection
+
+;;  :inject-at-runtime-prod? false
+;;  :inject-at-runtime-dev?  true
+
+
+
+;;........................................................................
+
+
+
+ ;; Logging
+
+;;  :log-build-report?       true
+;;  :log-build-report-style  :simple ; :simple or :detailed
+;;  :log-kushi-version?      true
+;;  :log-updates-to-cache?   false
+;;  :log-cache-call-sites?   false
+
+
+
+;;........................................................................
+
+
+
+;; ADVANCED
+
+;; For leaving specific things out of css, set individual options below to `false`.
+;; You probably don't want to override these unless you are only using
+;; Kushi's styling engine (`sx`, `defclass`, etc.) and not using any prebuilt
+;; kushi.ui lib components or kushi's design tokens, etc.
+
+;;  :add-stylesheet-prod?    true
+;;  :add-stylesheet-dev?     true
+;;  :add-css-reset?          true
+;;  :add-system-font-stack?  true
+;;  :add-design-tokens?      true
+;;  :add-kushi-ui-theming?   true
+
+
+;; If :add-kushi-ui-theming-defclass? is set to false, it will not include defclasses
+;; for kushi.ui components (these are defined internally from namespaces within kushi.ui).
+;; You probably do not want to disable this unless you are developing on kushi itself.
+
+;;  :add-kushi-ui-theming-defclass? true
+
+
+;; Note - if :add-kushi-ui-theming? is set to false, it will not include
+;; theming classes for for kushi ui components such as buttons, tags, etc.
+
+;;  :add-ui-theming?         true
+
+
+;; Set this to false to leave out dark theme variants for kushi.ui related classes
+;;  :add-kushi-ui-dark-theming?     true
+
+
+;; Set this to false to leave out light theme variants for kushi.ui related classes
+;;  :add-kushi-ui-light-theming?    true
+
+
+
+;;  :add-kushi-defclass?     true
+
+
+;; If :add-user-defclass? is set to false, all user defined defclasses will not be included.
+;; You probably do not want to disable this unless you are developing on kushi itself.
+
+;;  :add-user-defclass?      true
+
+
+;; If :add-user-sx is set to false, all user styles (defined via sx macro) will not be included.
+;; You probably do not want to disable this unless you are developing on kushi itself.
+
+;;  :add-user-sx?            true
+
+
+;; By default all theming classes from user or kushi.ui will be written like something like this:
+;; .kushi-button.secondary-negative {
+;;   background-color: var(--negative-background);
+;;   border-color: var(--negative-border);
+;;   color: var(--negative);
+;;   box-shadow: 0 0 5px red
+;; }
+
+;; If set to `true` all theming classes from user or kushi.ui be written like this,
+;; with the appropriate additional alias tokens added to the theming tokens css chunk:
+;; .kushi-button.secondary-negative {
+;;   background-color: var(--kushi-button-secondary-negative-background-color, var(--negative-background));
+;;   border-color: var(--kushi-button-secondary-negative-border-color, var(--negative-border));
+;;   color: var(--kushi-button-secondary-negative-color , var(--negative));
+;;   box-shadow: var(--kushi-button-secondary-negative-box-shadow, 0 0 5px red);
+;; }
+
+;; The more verbose option is probably not necessary unless you are doing one of the following:
+;; - Building tooling for interactively tweaking themes
+;; - Writing your theming config using a flat map of verbose css vars (not necessarily recommended)
+
+;; :add-theming-css-vars?          false
+
+
+;; You can explicitly opt-in to include support for `kind` and `semantic` variants of certain kushi.ui components.
+;; By default, support for all these variants is included in the css, so narrowing it will reduce
+;; the amount of default theme-related css that gets included in the css.
+
+;; The components that use `kind` and `semantic` variants are:
+;; kushi.ui.button.core/button
+;; kushi.ui.tag.core/tag
+
+;; Using this example value below would limit the support to just a subset of these variants:
+;; {:button {:semantic #{:positive :negative} :kind #{:primary :minimal}} :tag {:semantic #{:positive :negative}}}
+
+;;  :kushi-ui-variants            {:button {:kind     #{:primary :secondary :tertiary :outlined :minimal}
+;;                                          :semantic #{:positive :negative :warning :accent}}
+;;                                 :tag    {:kind     #{:primary :secondary :outlined}
+;;                                          :semantic #{:positive :negative :warning :accent}}}
+ }

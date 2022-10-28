@@ -6,22 +6,24 @@
 
  :dependencies
  [[reagent "1.1.0"]
-  [org.clojars.paintparty/kushi "1.0.0-alpha9"] ; kushi dependency
-  [binaryage/devtools "1.0.3"]]
+  [metosin/malli "0.8.9"]
+  [binaryage/devtools "1.0.3"]
+  ;; Add Kushi dependency
+  [org.clojars.paintparty/kushi "1.0.0-alpha11"]]
 
  :dev-http
  {8020 "public"}
 
+ 
+ ;; Add cache-blockers for side-effecting macros
+ :cache-blockers #{kushi.core kushi.stylesheet}
+
  :builds
  {:app
-  {:devtools {:log false}
-   :target :browser
+  {:devtools         {:log false}
+   :target           :browser
    :compiler-options {:output-feature-set :es8}
-   :build-hooks [(kushi.core/kushi-debug)
-                 (kushi.stylesheet/create-css-file)] ; kushi build hooks
-   :build-options  {:cache-level :off} ; Setting {:cache-level :off} is required for `release` builds with kushi.
-   :output-dir "public/js"
-   :asset-path "/js"
-   :modules
-   {:main
-    {:init-fn starter.browser/init}}}}}
+   :modules          {:main {:init-fn starter.browser/init}}
+   ;; Add Kushi build hooks
+   :build-hooks      [(kushi.core/kushi-debug)
+                      (kushi.stylesheet/create-css-file)]}}}

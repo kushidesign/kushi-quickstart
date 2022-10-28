@@ -7,11 +7,20 @@
 ;; The example below composes on top of :.absolute, a pre-defined defclass that ships with kushi.
 
 ;; Typically, you would want to define all your shared styles in a dedicated namespace. This namespace
-;;   must then be required in your core namespace to make all of your defclasses available globally.
-
+;; must then be required in your core namespace to make all of your defclasses available globally.
 ;; You can also define defclasses in the namespace you are using them in.
+
+(defclass kushi-opts-grid-row-item
+  :padding-block--1.5em
+  :bbe--1px:solid:#efefef
+  :bc--:--gray200
+  :&_p:margin-block--0
+  :&_.kushi-ui-opt-desc&_p:fs--0.775rem
+  :&_a:td--underline
+  )
+
 (defclass headline
-  :position--absolute
+  :.absolute
   :ta--center
   :w--100%
   :top--0
