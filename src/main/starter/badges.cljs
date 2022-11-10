@@ -61,15 +61,6 @@
 ;; They also use kushi.core/merge-attrs to merge user-passed attributes.
 
 
-(defclass grayscale
-  {:filter "grayscale(1) contrast(1) brightness(1) invert()"})
-
-(defclass small-badge
-  :w--20px
-  :h--20px
-  :o--1
-  :hover:o--0.5)
-
 (defcom contained-image
   [:img
    (merge-attrs
