@@ -2,16 +2,10 @@
   (:require
    ;; Require various functions and macros from kushi.core
    [kushi.core :refer (sx inject-stylesheet add-font-face add-system-font-stack defkeyframes add-google-font!)]
-   [kushi.ui.snippet.core :refer [copy-to-clipboard-button]]
-   ;;   IMPORTANT - If you are using defclasses(shared styles), it is good practice to defined them all
-   ;;   in a dedicated namespace. To ensure all of these defclasses will be available globally,
-   ;;   you must require them (as we are doing here) in the ns that corresponds to your main module.
-   ;;   This require must come before the requires of any other namespaces which contain ui code that
-   ;;   uses one of your defclasses. As you can see in the example below, our shared-styles ns is
-   ;;   required BEFORE the starter.badges ns, which contains a component that uses a shared class.
-   [starter.shared-styles]
 
+   ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
+   [starter.shared-styles]
 
    ;; This example uses reagent
    [reagent.dom :as rdom]))
