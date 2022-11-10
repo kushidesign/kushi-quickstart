@@ -45,4 +45,11 @@
 (defclass twirl4x
   :animation--y-axis-spinner:12s:linear:infinite)
 
+(defclass grayscale
+  {:filter "grayscale(1) contrast(1) brightness(1) invert()"})
 
+(defclass small-badge
+  :w--20px
+  :h--20px
+  :o--1
+  :hover:o--0.5)
