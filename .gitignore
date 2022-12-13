@@ -10,3 +10,11 @@
 /.idea
 /public/css/kushi.css
 /.calva
+/tmp
+.hgignore
+.hg/
+.lsp
+.clj-kondo/.cache
+.calva
+.vscode
+.idea

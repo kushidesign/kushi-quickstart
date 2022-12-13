@@ -2,6 +2,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "npx shadow-cljs watch app",
+    "release": "npx shadow-cljs release app",
     "clean": "rm -rf public/js .shadow-cljs .cpcache"
   },
   "devDependencies": {
