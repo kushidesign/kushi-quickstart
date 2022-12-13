@@ -16,12 +16,11 @@
    ;; These maps will get merged with the baseline maps for kushi.ui.tokens
 
 
-   :tokens {:global {:--howlite-blue  :#00adef
-                     :--deep-fuscsia  :#ec018b
-                     :--canary-yellow :#fef200
-                     :--tooltip-color :--gray50
-                     :--tooltip-background-color :transparent}
-            :alias  {}}
+   :design-tokens [:--howlite-blue             :#00adef
+                   :--deep-fuscsia             :#ec018b
+                   :--canary-yellow            :#fef200
+                   :--tooltip-color            :--gray50
+                   :--tooltip-background-color :transparent]
 
 
 
@@ -47,7 +46,7 @@
    ;; This is the place to override/specify global styles that will get applied to the body element.
    ;; You can also override or extend default theming values for buttons, tags, etc. across light and dark themes.
    ;; Look at kushi.ui.basetheme/kushi-ui for examples of these kinds of theming values.
-   :ui              ["body"
-                     {:font-family      :--sans-serif-font-stack
-                      :background-color :black}]
+   :ui            ["body"
+                   {:font-family      :--sans-serif-font-stack
+                    :background-color :black}]
    })
