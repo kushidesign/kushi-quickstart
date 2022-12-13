@@ -1,14 +1,15 @@
 (ns starter.badges
   (:require
-   [kushi.core :refer [sx defclass merge-attrs]]
+   [kushi.core :refer [sx merge-attrs]]
    [kushi.ui.core :refer [defcom]]
+   [kushi.ui.icon.mui.core :refer [mui-icon]]
    [kushi.ui.button.core :refer [button]]
    [kushi.ui.tooltip.core :refer [tooltip]]))
 
 
 ;; ---------------------------------------------------------------
 ;; DEFINING COMPONENTS
-;; Also see https://github.com/paintparty/kushi#defining-components
+;; Also see https://github.com/kushidesign/kushi#defining-components
 ;; ---------------------------------------------------------------
 
 ;; The commented code below is a contrived example of creating a reusable, stateless, and composable component using `kushi.ui.core/defcom`.
@@ -55,7 +56,7 @@
 ;;  [:p "Child one"]
 
 
-;; For more in-depth info on defmacro see https://github.com/paintparty/kushi#manually-defining-complex-components.
+;; For more in-depth info on defmacro see https://github.com/kushidesign/kushi#manually-defining-complex-components.
 
 ;; Below, `contained-image` and `twirling-badge` both use defmacro to create reusable components.
 ;; They also use kushi.core/merge-attrs to merge user-passed attributes.
@@ -71,19 +72,23 @@
     &attrs)])
 
 (defcom icon-badge-link
-  [button
-   (merge-attrs (sx :.pointer :.minimal) &attrs)
-   &children])
+  [:a &attrs
+   [button
+    (sx :hover:bgc--transparent
+        :hover:c--white
+        :bgc--transparent
+        :p--0)
+    &children]])
 
 (def link-data
-  [{:href "https://github.com/paintparty/kushi"
+  [{:href "https://github.com/kushidesign/kushi"
     :src  "graphics/github.svg"
     :inline-offset :end
-    :tooltip-text "View project on github"}
-   {:href "https://clojars.org/org.clojars.paintparty/kushi"
+    :tooltip-text[:span "View project on github " [mui-icon "open_in_new"]]}
+   {:href "https://clojars.org/design.kushi/kushi"
     :src  "graphics/clojars-logo-bw2.png"
     :inline-offset :start
-    :tooltip-text "View project at clojars.org"}
+    :tooltip-text [:span "View project at clojars.org " [mui-icon "open_in_new"]]}
    #_{:href "https://twitter.com"
       :src  "graphics/twitter.svg"}])
 
