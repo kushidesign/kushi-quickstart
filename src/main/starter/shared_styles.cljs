@@ -51,5 +51,4 @@
 (defclass small-badge
   :w--20px
   :h--20px
-  :o--1
-  :hover:o--0.5)
+  :o--1)
