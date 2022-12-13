@@ -152,7 +152,7 @@
 ;;
 
 ;; A partial list of these is available here:
-;; https://github.com/paintparty/kushi#styles-as-keywords
+;; https://github.com/kushidesign/kushi#syntax
 
 
 ;; Standard CSS shorthand-values are written like this:
@@ -249,67 +249,6 @@
 
 ;; Main component.
 (defn main-view []
-  #_[:div "hi"]
-  #_[:div (sx
-           'profs
-
-         ;;  :.barz
-         ;;  :--myvar--red
-         ;;  (when true :.gold)
-
-           #_22
-           #_[333 :bad]
-
-           :.wtf
-           (if true :.trueclass :.falseclass)
-           [:p mycolor]
-           [:hover:p (if true mycolor mycolor2)]
-
-        ;;  [:hover:>div:m :30px]
-        ;;  [:md:hover:>div:m :33px]
-        ;;  [:md:hover&>div:m :48px]
-        ;;  [:sm:hover&>div:m :49px]
-        ;;  [:lg:hover&>div:m :50px]
-
-            ;; ["nth-child(2):m" :30px]
-            ;; [:sm:p :20px]
-            ;; ;; [:sm:hover:p :30px]
-            ;; ;; [:sm:hover:>div:m :30px]
-            ;; [:md:p :33px]
-            ;; ;; [:md:hover:>div:m :50px]
-            ;; [:m (when true :10px)]
-            ;; {:class [:foo]
-           {:on-click #(js/console.log "HI")
-            :class    [:foo]
-            :style    {:bgc :red
-                  ;; 11   :gold
-                  ;; 12   :silver
-                       :m   :10px}})
-     "hi"]
-
-  #_[:div (sx :.xlarge
-            ;; "1"
-              :c--red
-              [:p :10px]
-              {:style {:bgc :aliceblue
-                    ;;  11   :gold
-                       :m   :10px
-                    ;;  12   :silver
-                       }
-               })
-     "Hello Hello"
-     [hoho "hohos"]]
-  #_[:div.wtf
-     [:h1 (sx :.relative
-              :ta--center
-              "badstring"
-              :.sans
-              :p--10px
-              12
-              :fs--18px
-              :c--#efefef)
-      "hi"]]
-
   [:div
    (sx
     'main-app-wrapper
