@@ -5,17 +5,15 @@
   "src/test"]
 
  :dependencies
- [[reagent "1.1.0"]
-  [metosin/malli "0.8.9"]
-  [binaryage/devtools "1.0.3"]
+ [[reagent "1.1.1"]
+  [binaryage/devtools "1.0.6"]
   ;; Add Kushi dependency
-  [org.clojars.paintparty/kushi "1.0.0-a.12"]]
+  [design.kushi/kushi "1.0.0-a.16"]]
 
  :dev-http
  {8020 "public"}
 
- 
- ;; Add cache-blockers for side-effecting macros
+ ;; Add cache-blockers for Kushi's side-effecting macros
  :cache-blockers #{kushi.core kushi.stylesheet}
 
  :builds
@@ -24,6 +22,11 @@
    :target           :browser
    :compiler-options {:output-feature-set :es8}
    :modules          {:main {:init-fn starter.browser/init}}
-   ;; Add Kushi build hooks
-   :build-hooks      [(kushi.core/kushi-debug)
-                      (kushi.stylesheet/create-css-file)]}}}
+   :build-hooks      [
+                      ;; Add Kushi build hooks
+                      (kushi.core/kushi-debug)
+                      (kushi.stylesheet/create-css-file)
+
+                      ;; This is optional but adds a nice build report for release builds
+                      (shadow.cljs.build-report/hook
+                       {:output-to "tmp/report.html"})]}}}

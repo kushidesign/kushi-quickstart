@@ -7,10 +7,9 @@
    [kushi.ui.tooltip.core :refer [tooltip]]))
 
 
-;; ---------------------------------------------------------------
 ;; DEFINING COMPONENTS
 ;; Also see https://github.com/kushidesign/kushi#defining-components
-;; ---------------------------------------------------------------
+;; ...............................................................
 
 ;; The commented code below is a contrived example of creating a reusable, stateless, and composable component using `kushi.ui.core/defcom`.
 
@@ -56,7 +55,9 @@
 ;;  [:p "Child one"]
 
 
-;; For more in-depth info on defmacro see https://github.com/kushidesign/kushi#manually-defining-complex-components.
+;; For more in-depth info on defmacro and its underlying pattern,
+;; see https://github.com/kushidesign/kushi#manually-defining-complex-components.
+
 
 ;; Below, `contained-image` and `twirling-badge` both use defmacro to create reusable components.
 ;; They also use kushi.core/merge-attrs to merge user-passed attributes.
@@ -92,6 +93,9 @@
    #_{:href "https://twitter.com"
       :src  "graphics/twitter.svg"}])
 
+
+;; Usage of the components defined above
+;; Also uses the kushi.ui.tooltip.core/tooltip component from kushi's set of primitive ui components.
 (defn links []
   [:div
    (sx :.absolute

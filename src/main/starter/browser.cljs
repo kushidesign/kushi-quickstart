@@ -1,7 +1,12 @@
 (ns starter.browser
   (:require
    ;; Require various functions and macros from kushi.core
-   [kushi.core :refer (sx inject-stylesheet add-font-face add-system-font-stack defkeyframes add-google-font!)]
+   [kushi.core :refer [sx
+                       inject-stylesheet
+                       add-font-face
+                       add-system-font-stack
+                       defkeyframes
+                       add-google-font!]]
 
    ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
@@ -14,7 +19,7 @@
 
 
 ;; Injecting Stylesheets
-;; ---------------------------------------------------------------------------------------------
+;; .............................................................................................
 
 
 ;; Optional.
@@ -42,7 +47,6 @@
                     :href "https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap"})
 
 
-
 ;; If you want to add Google Fonts, you can also just use `kushi.core/add-google-fonts!`,
 ;; which will abstract the above pattern (3 separate calls) into one call.
 
@@ -66,9 +70,8 @@
 
 
 
-
 ;; Adding webfont resources
-;; ---------------------------------------------------------------------------------------------
+;; .............................................................................................
 
 ;; Optional.
 ;; Using kushi.core/add-font-face macro to load a local font.
@@ -92,6 +95,7 @@
 
 ;; ;; Calling `add-system-font-stack` will add a total of 8 `@font-face`
 ;; ;; rules (300, 400, 500, and 700 - normal and italic for each).
+
 (add-system-font-stack)
 
 
@@ -99,7 +103,7 @@
 
 
 ;; Defining animation keyframes
-;; ---------------------------------------------------------------------------------------------
+;; .............................................................................................
 
 ;; Using kushi.core/defkeyframes macro to define keyframes.
 (defkeyframes y-axis-spinner
@@ -114,11 +118,13 @@
 
 
 ;; Styling component elements with sx
-;; ---------------------------------------------------------------------------------------------
+;; .............................................................................................
 
 ;; You can use kushi.core/sx to co-locate all your styles within your components.
 ;; Media queries, pseudo-classes, pseudo-elements, combo-selectors, and dynamic runtime values are all supported.
-;; You can also incorporate your own defclasses, as well as the useful defclasses that ship with Kushi.
+
+;; You can also incorporate your own shared classes (via the kushi.core/defclass macro),
+;; as well as the useful defclasses that ship with Kushi.
 
 ;; kushi.core/sx is a macro that returns an attribute map.
 ;; This map contains:
@@ -130,14 +136,25 @@
 ;; Using a build hook for the :compile-finish stage (or similar), your css is written to a static file.
 
 
+
+
 ;; SOME NOTES ON SYNTAX:
 
-;; A keyword starting with a "." represents a defined defclass that will get attached to the element.
+;; You can passed a quoted symbol as the first arg to defclass if you want to give the generated
+;; class a specific name.
+;; (sx 'myfirstclass :c--red :fs--3rem)
+
+;; A keyword starting with a "." represents a classname that will get attached to the element.
+;; Typically you would use this for predefined classes created with defclass, but you can also use
+;; it to attache arbritary classes to the element.
 ;; Kushi ships with a small handful of useful pre-defined defclasses.
+
+;; You can apply classes conditionally like so:
+;; (when my-binding :.my-class)
+;; (if my-binding :.my-class :.my-other-class)
 
 
 ;; A keyword containing "--" represents a css prop and value pair (split on the "--").
-
 
 ;; Kushi shorthand notation is optionally available for the most commonly used css-props:
 ;;
@@ -171,22 +188,26 @@
 
 ;; Media queries, pseudo-classes, pseudo-elements, and combo selectors can be used like this:
 ;;
-;;     sm:c--red
-;;     sm:hover:c--blue
-;;     :>a:hover:c--gold
-;;     :_a:hover:c--gold
-;;
-;;     The below edge case (because "(" and ")" chars are not valid in keywords) requires
-;;     the tuple syntax with prop being expressed as a string:
-;;     ["nth:child(2):c" :red]
+;;     (sx sm:c--red
+;;         sm:hover:c--blue
+;;         :>a:hover:c--gold
+;;         :_a:hover:c--gold)
 
 
+;;     In the example below, because "(" and ")" chars are not valid in keywords,
+;;     the 2-element tuple syntax is required, with the prop being expressed as a string:
+;;     (sx ["nth:child(2):c" :red])
 
-;; You can use runtime variable values with the tuple syntax.
+
+;; You can use runtime variable values with the same tuple syntax.
 ;;     (sx [:c mycolor])
 
 ;;     You could also write this as:
 ;;     (sx {:style {:color mycolor})
+
+
+;; You can use conditional logic to apply different values base on runtime variables.
+;;     (sx [:c (if danger? :red :green)])
 
 
 ;; The tuple syntax is also necessary for css functions and string values.
@@ -260,7 +281,7 @@
         :ai--c
         :bgc--black)
 
-    ;; In this div we are using both tokenized keywords and a tuple.
+    ;; In this div we are using both tokenized keywords and a the 2-element tuple syntax.
     [:div
      (sx 'wtfx
          :.flex-col-sb
@@ -271,12 +292,15 @@
          :md:h--500px
          [:transform "translateY(calc(-100vh / 33))"])
 
+     ;; The color design tokens below are defined globally in the theme.cljc file,
+     ;; which is specified in the :theme entry in your kushi.edn config file.
      [:div
       [headline-layer "var(--howlite-blue)" :12s]
       [headline-layer "var(--canary-yellow)" :3s]
       [headline-layer  "var(--deep-fuscsia)" :6s]]
      [twirling-subheader "kushi × shadow-cljs quickstart"]]]
    [badges/links]])
+
 
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
