@@ -30,8 +30,8 @@ When you see a kushi report followed by a "Build completed." message (from shado
 
 ```bash
 [:app] Compiling ...
-[:app] Using Kushi v1.0.0-a.11
-[:app] [Kushi v1.0.0-a.11] - Writing 281 rules and 319 tokens.
+[:app] Using Kushi <version>
+[:app] [Kushi <version>] - Writing 281 rules and 319 tokens.
 [:app] Build completed. (176 files, 175 compiled, 0 warnings, 13.19s)
 ```
 
@@ -55,9 +55,9 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
   "src/test"]
 
  :dependencies
- [[reagent "1.0.0"]
-  [design.kushi/kushi "1.0.0-a.15"] ; ! Kushi dependency
-  [binaryage/devtools "1.0.3"]]
+ [[reagent "1.1.1"]
+  [design.kushi/kushi "1.0.0-a.16"] ; ! Kushi dependency
+  [binaryage/devtools "1.0.6"]]
 
  :dev-http
  {8020 "public"}
@@ -127,4 +127,12 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
 <br>
 
+
+At the very bottom of your app's main ns, you may want to include:
+```Clojure
+(kushi.core/inject!)
+```
+This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when devving, this can help.
+
+<br>
 Please see `src/main/starter/browser.cljs`, `src/main/starter/badges.cljs`, and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.

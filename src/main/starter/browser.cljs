@@ -2,6 +2,7 @@
   (:require
    ;; Require various functions and macros from kushi.core
    [kushi.core :refer [sx
+                       inject!
                        inject-stylesheet
                        add-font-face
                        add-system-font-stack
@@ -282,25 +283,26 @@
         :bgc--black)
 
     ;; In this div we are using both tokenized keywords and a the 2-element tuple syntax.
-    [:div
-     (sx 'wtfx
-         :.flex-col-sb
-         :ai--c
-         :w--100%
-         :h--200px
-         :sm:h--375px
-         :md:h--500px
-         [:transform "translateY(calc(-100vh / 33))"])
+    [:div (sx :c--white :w--200px :pbs--200px :bgc--gray) "hi"]
+    #_[:div
+       (sx 'hero-wrapper
+           :.flex-col-sb
+           :ai--c
+           :w--100%
+           :h--200px
+           :sm:h--375px
+           :md:h--500px
+           [:transform "translateY(calc(-100vh / 33))"])
 
      ;; The color design tokens below are defined globally in the theme.cljc file,
      ;; which is specified in the :theme entry in your kushi.edn config file.
-     [:div
-      [headline-layer "var(--howlite-blue)" :12s]
-      [headline-layer "var(--canary-yellow)" :3s]
-      [headline-layer  "var(--deep-fuscsia)" :6s]]
-     [twirling-subheader "kushi × shadow-cljs quickstart"]]]
+       [:div
+        [headline-layer "var(--howlite-blue)" :12s]
+        [headline-layer "var(--canary-yellow)" :3s]
+        [headline-layer  "var(--deep-fuscsia)" :6s]]
+       [twirling-subheader "kushi × shadow-cljs quickstart"]]]
+   
    [badges/links]])
-
 
 
 ;; Below is boilerplate code from https://github.com/shadow-cljs/quickstart-browser
@@ -317,3 +319,8 @@
 
 ;; this is called before any code is reloaded
 (defn ^:dev/before-load stop [])
+
+
+;; This will inject the same stylesheet that kushi writes to disk into your browser, during development builds.
+;; You may not need or want to do this but if you are experiencing visual jankiness on reloads when devving, this can help.
+(inject!)
