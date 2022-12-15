@@ -283,8 +283,7 @@
         :bgc--black)
 
     ;; In this div we are using both tokenized keywords and a the 2-element tuple syntax.
-    [:div (sx :c--white :w--200px :pbs--200px :bgc--gray) "hi"]
-    #_[:div
+    [:div
        (sx 'hero-wrapper
            :.flex-col-sb
            :ai--c
@@ -301,7 +300,6 @@
         [headline-layer "var(--canary-yellow)" :3s]
         [headline-layer  "var(--deep-fuscsia)" :6s]]
        [twirling-subheader "kushi × shadow-cljs quickstart"]]]
-   
    [badges/links]])
 
 
