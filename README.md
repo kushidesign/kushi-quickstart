@@ -1,7 +1,7 @@
 # Kushi quickstart
 [Kushi](https://github.com/kushidesign/kushi) is a complete styling and UI solution for ClojureScript.
 
-This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the src files of this repo.
+This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the src files of this project.
 
 This template is based on [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser).
 
@@ -56,7 +56,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.16"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.17"] ; ! Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
@@ -130,7 +130,8 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
 At the very bottom of your app's main ns, you may want to include:
 ```Clojure
-(kushi.core/inject!)
+(when ^boolean js/goog.DEBUG
+  (inject!))
 ```
 This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when devving, this can help.
 
