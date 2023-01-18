@@ -272,9 +272,8 @@
 ;; Main component.
 (defn main-view []
   [:div
-   (sx
-    'main-app-wrapper
-    :ff--sys)
+   (sx 'main-app-wrapper
+       :ff--sys)
    [:div
     (sx :.flex-col-c
         :.absolute-fill
@@ -284,22 +283,22 @@
 
     ;; In this div we are using both tokenized keywords and a the 2-element tuple syntax.
     [:div
-       (sx 'hero-wrapper
-           :.flex-col-sb
-           :ai--c
-           :w--100%
-           :h--200px
-           :sm:h--375px
-           :md:h--500px
-           [:transform "translateY(calc(-100vh / 33))"])
+     (sx 'hero-wrapper
+         :.flex-col-sb
+         :ai--c
+         :w--100%
+         :h--200px
+         :sm:h--375px
+         :md:h--500px
+         [:transform "translateY(calc(-100vh / 33))"])
 
      ;; The color design tokens below are defined globally in the theme.cljc file,
      ;; which is specified in the :theme entry in your kushi.edn config file.
-       [:div
-        [headline-layer "var(--howlite-blue)" :12s]
-        [headline-layer "var(--canary-yellow)" :3s]
-        [headline-layer  "var(--deep-fuscsia)" :6s]]
-       [twirling-subheader "kushi × shadow-cljs quickstart"]]]
+     [:div
+      [headline-layer "var(--howlite-blue)" :12s]
+      [headline-layer "var(--canary-yellow)" :3s]
+      [headline-layer  "var(--deep-fuscsia)" :6s]]
+     [twirling-subheader "kushi × shadow-cljs quickstart"]]]
    [badges/links]])
 
 
@@ -321,4 +320,5 @@
 
 ;; This will inject the same stylesheet that kushi writes to disk into your browser, during development builds.
 ;; You may not need or want to do this but if you are experiencing visual jankiness on reloads when devving, this can help.
-(inject!)
+(when ^boolean js/goog.DEBUG
+  (inject!))
