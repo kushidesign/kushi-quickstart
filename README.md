@@ -56,7 +56,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.17"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.18"] ; ! Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
