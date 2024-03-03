@@ -7,6 +7,8 @@
  ;; OPTIONAL
 
  ;; Misc --------------------------------------------------------------------
+ ;; Filename will default to `kushi.css`, unless you provide a specific name.
+ :css-filename                        nil
  ;; User theme - this should be a fully qualified symbol to a theme config
  ;; map e.g. 'my-project.theme/my-theme
  :theme                               starter.theme/user-theme

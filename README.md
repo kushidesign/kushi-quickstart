@@ -3,7 +3,10 @@
 
 This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the src files of this project.
 
-This template is based on [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser).
+This template is based on [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser)
+
+The example `kushi.edn` features all the options (set to their defaults), with descriptive commentary. By design, this quickstart template includes all the relevant css to allow you to explore the design system, design tokens, semantic variants, and the entire kushi.ui library of pre-built components. In a real-world project, you may very well be using only a subset of these things, in which case you can aggressively elide different categories of css and reduce your bundle size. The comments in the kushi.edn file describe which options write kind of css.
+
 
 <br>
 
@@ -136,4 +139,5 @@ At the very bottom of your app's main ns, you may want to include:
 This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when developing, this can help.
 
 <br>
+
 Please see `src/main/starter/browser.cljs`, `src/main/starter/badges.cljs`, and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.
