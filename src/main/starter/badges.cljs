@@ -81,25 +81,19 @@
 
 ;; Uses kushi.ui.tooltip.core/tooltip-attrs to create tooltip
 (defcom icon-badge-link
-  [:a &attrs
-   [button
-    (merge-attrs
-     (sx :hover:bgc--transparent
-         :hover:c--white
-         :bgc--transparent
-         :p--0
-         :after:ff--FiraCodeRegular|monospace|sans-serif
-         :before:ff--FiraCodeRegular|monospace|sans-serif)
-     (tooltip-attrs (:tooltip-opts &opts)))
-    &children]])
-
-(def link-data
-  [{:href "https://github.com/kushidesign/kushi"
-    :src  "graphics/github.svg"
-    :tooltip-opts {:-text "View project on github " :-placement :left}}
-   {:href "https://clojars.org/design.kushi/kushi"
-    :src  "graphics/clojars-logo-bw2.png"
-    :tooltip-opts {:-text "View project at clojars.org " :-placement :right}}])
+  (let [{:keys [tooltip-text tooltip-placement]} &opts]
+    [:a &attrs
+        [button
+         (merge-attrs
+          (sx :hover:bgc--transparent
+              :hover:c--white
+              :bgc--transparent
+              :p--0
+              :after:ff--FiraCodeRegular|monospace|sans-serif
+              :before:ff--FiraCodeRegular|monospace|sans-serif)
+          (tooltip-attrs {:-text      tooltip-text
+                          :-placement tooltip-placement}))
+         &children]]))
 
 
 ;; Usage of the components defined above.
@@ -109,17 +103,30 @@
        :.flex-row-c
        :w--100%
        :mbs--38px)
-   (into
-    [:div
-     (sx :.flex-row-sa
-         :w--100px
-         :>button:display--inline-flex)]
+   [:div
+    (sx :.flex-row-sa
+        :w--100px
+        :>button:display--inline-flex)
 
-    (for [{:keys [href src tooltip-opts]} link-data]
+    (let [src "graphics/github.svg"]
       [icon-badge-link
-       {:href   href
-        :target :_blank
-        :-tooltip-opts tooltip-opts}
+       {:href               "https://github.com/kushidesign/kushi"
+        :src                src
+        :-tooltip-text      "View project on github "
+        :-tooltip-placement :left}
        
-       [contained-image (sx :.grayscale :.small-badge {:src src})]]))])
+       [contained-image (sx :.grayscale
+                            :.small-badge
+                            {:src src})]])
+
+    (let [src "graphics/clojars-logo-bw2.png"]
+      [icon-badge-link
+       {:href               "https://clojars.org/design.kushi/kushi"
+        :src                src
+        :-tooltip-text      "View project at clojars.org "
+        :-tooltip-placement :right}
+       
+       [contained-image (sx :.grayscale
+                            :.small-badge
+                            {:src src})]])]])
 
