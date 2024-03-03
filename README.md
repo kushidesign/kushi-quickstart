@@ -133,7 +133,7 @@ At the very bottom of your app's main ns, you may want to include:
 (when ^boolean js/goog.DEBUG
   (inject!))
 ```
-This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when devving, this can help.
+This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when developing, this can help.
 
 <br>
 Please see `src/main/starter/browser.cljs`, `src/main/starter/badges.cljs`, and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.
