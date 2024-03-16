@@ -1,18 +1,26 @@
 (ns starter.browser
   (:require
    ;; Require various functions and macros from kushi.core
+   [applied-science.js-interop :as j]
+   [clojure.string :as string]
    [kushi.core :refer [sx
+                       defclass
                        inject!
                        inject-stylesheet
                        add-font-face
                        defkeyframes
                        add-google-font!]]
 
+   [fireworks.core :refer [? !? ?> !?> p]]
+   [kushi.ui.dom :as dom]
+   [kushi.ui.tooltip.core2 :refer [append-tooltip!]]
    ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
    [starter.shared-styles]
+   [starter.theme]
 
    ;; This example uses reagent
+   [reagent.core :as r]
    [reagent.dom :as rdom]))
 
 
@@ -287,6 +295,7 @@
 
 ;; Main component.
 (defn main-view []
+  (js/console.clear)
   [:div
    (sx 'main-app-wrapper
        :ff--sys)
@@ -294,12 +303,11 @@
     (sx :.flex-col-c
         :.absolute-fill
         :h--100%
-        :ai--c
-        :bgc--black)
+        :ai--c )
 
     ;; In this div we are using both tokenized keywords,
     ;; and the 2-element tuple syntax.
-    [:div
+    #_[:div
      (sx 'hero-wrapper
          :.flex-col-sb
          :ai--c
@@ -316,15 +324,108 @@
       [headline-layer "var(--canary-yellow)" :3s]
       [headline-layer  "var(--deep-fuscsia)" :6s]]
      [twirling-subheader "kushi × shadow-cljs quickstart"]]]
-   [badges/links]])
+
+   #_[badges/links]
+
+   [:div (sx 'stage
+             :.flex-col-c
+             :.absolute-fill
+             :h--100%
+             :ai--c 
+             :$ns-side-offset--50px
+             :$ew-side-offset--80px
+             :$edge-offset--0)
+    [badges/north-edge]
+    [badges/north-side]
+    [badges/east-edge]
+    [badges/east-side]
+    [badges/south-edge]
+    [badges/south-side]
+    [badges/west-edge]
+    [badges/west-side]
+    [badges/middle]]])
 
 
 ;; Below is boilerplate code from
 ;; https://github.com/shadow-cljs/quickstart-browser
 
 ;; start is called by init and after code reloading finishes
+
+
+
+(defclass lime-bg :bgc--lime)
+(defonce active-intervals (r/atom []))
+
+(defn pop-tip [children n instance-delay]
+  (let [el     (j/get children n)
+                enter  (dom/mouse-event :mouseenter)
+                leave  (dom/mouse-event :mouseleave)
+                append (partial append-tooltip!
+                                {:tooltip-arrow? true
+                                 :tooltip-text "-----" #_(string/join " " (dom/random-emojis 3))
+                                 :placement-kw (keyword (dom/data-attr el "kushi-ui-tooltip"))})]
+            (.addEventListener el "mouseenter" append #js {:once true})
+            (js/setTimeout 
+             #(do (dom/dispatch-event el enter)
+                  (dom/add-class el :lime-bg)
+                  (js/setTimeout (fn [_]
+                                   (.dispatchEvent el leave)
+                                   (dom/remove-class el :lime-bg))
+                                 instance-delay))
+             (* instance-delay n))))
+
+(defn pop-tips-profile [sel]
+  (let [children       (some->> sel
+                                (dom/qs js/document)
+                                .-children
+                                js->clj)
+        nchildren      (.-length children)
+        instance-delay 200]
+    {:children       children
+     :nchildren      nchildren
+     :instance-delay instance-delay
+     :interval-delay (+ instance-delay (* instance-delay nchildren))}))
+
+(defn pop-tip-interval! [f interval-delay]
+  (swap! active-intervals
+         conj
+         (js/setInterval f interval-delay)))
+
+(defn pop-tips [sel]
+  (let [{:keys [children 
+                nchildren 
+                instance-delay
+                interval-delay]} (pop-tips-profile sel)]
+    (pop-tip-interval!
+     (fn [_]
+       (dotimes [n nchildren]
+         (pop-tip children n instance-delay)))
+     interval-delay)))
+
+
+(defn tooltip-auto-hover []
+  (let [sels [".n-edge-trg"  
+              ".n-side-trg"  
+              ".w-side-trg"  
+              ".w-edge-trg"  
+              ".middle-trg.absolute-centered"
+              ".e-side-trg"  
+              ".e-edge-trg"  
+              ".s-edge-trg"  
+              ".s-side-trg"]]
+    (doseq [sel   sels
+            :when (not (re-find #"edge" sel))]
+      (pop-tips sel))))
+
+
+
 (defn ^:dev/after-load start []
-  (rdom/render [main-view] (.getElementById js/document "app")))
+  (rdom/render [main-view]
+              (.getElementById js/document "app"))
+  ;; initiate tooltip autotest
+  #_(js/setTimeout
+   (fn [] (tooltip-auto-hover))
+   200))
 
 (defn init []
   ;; init is called ONCE when the page loads
@@ -333,7 +434,9 @@
   (start))
 
 ;; this is called before any code is reloaded
-(defn ^:dev/before-load stop [])
+(defn ^:dev/before-load stop []
+  (doseq [id @active-intervals]
+   (js/clearInterval id)))
 
 
 ;; This will inject the same stylesheet that kushi writes to disk into your

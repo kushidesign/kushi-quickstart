@@ -1,4 +1,5 @@
-{ "name": "kushi-quickstart",
+{
+  "name": "kushi-quickstart",
   "version": "1.0.0-a.19",
   "scripts": {
     "dev": "npx shadow-cljs watch app",

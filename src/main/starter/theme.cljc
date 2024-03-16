@@ -19,8 +19,28 @@
    :design-tokens [:--howlite-blue             :#00adef
                    :--deep-fuscsia             :#ec018b
                    :--canary-yellow            :#fef200
-                   :--tooltip-color            :--gray50
-                   :--tooltip-background-color :transparent]
+                   :--tooltip-font-size        :2rem
+                   :--tooltip-border-radius    :0.5rem
+                   :--tooltip-offset           :10px
+                   :--tooltip-arrow-x-offset   :8px
+                   :--tooltip-arrow-y-offset   :4px
+                   :--tooltip-delay-duration   :0ms
+
+                   ;; :--tooltip-color            :white
+                  ;;  :--tooltip-background-color "#4b346d"
+                   :--tooltip-background-color "#dedede"
+                   :--tooltip-color            "#dedede"
+
+                   ;; -- NEW !!!
+                   :--tooltip-initial-scale                    0.97
+                   :--tooltip-offset-transition-distance       :-30px
+                  ;;  :--tooltip-transition-duration              :$xxxfast
+                   :--tooltip-transition-duration              :$instant
+                   :--tooltip-transition-timing-function       :$tooltip-transition-timing-function
+                   :--tooltip-transition-timing-function       "cubic-bezier(0.190, 0.510, 0.125, 0.905)"
+                   :--tooltip-arrow-transition-timing-function :$tooltip-transition-timing-function
+                   :--tooltip-shift-transition-duration        :$fast
+                   ]
 
 
 
@@ -48,5 +68,5 @@
    ;; Look at kushi.ui.basetheme/kushi-ui for examples of these kinds of theming values.
    :ui            ["body"
                    {:font-family      :--sans-serif-font-stack
-                    :background-color :black}]
+                    :background-color :white}]
    })

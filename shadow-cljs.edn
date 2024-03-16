@@ -2,13 +2,16 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"]
+  "src/test"
+  "../kushi/src/"
+  "../../cljc/fireworks/src/"]
 
  :dependencies
  [[reagent "1.1.1"]
   [binaryage/devtools "1.0.6"]
   ;; Add Kushi dependency
-  [design.kushi/kushi "1.0.0-a.19"]]
+  [design.kushi/kushi "1.0.0-a.19"]
+  [io.github.paintparty/fireworks "0.1.1"]]
 
  :dev-http
  {8020 "public"}
