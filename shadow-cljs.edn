@@ -8,7 +8,7 @@
  [[reagent "1.1.1"]
   [binaryage/devtools "1.0.6"]
   ;; Add Kushi dependency
-  [design.kushi/kushi "1.0.0-a.19"]]
+  [design.kushi/kushi "1.0.0-a.20"]]
 
  :dev-http
  {8020 "public"}
