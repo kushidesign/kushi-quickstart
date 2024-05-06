@@ -1,5 +1,6 @@
 (ns starter.browser
   (:require
+   [fireworks.core :refer [??? !? ?> !?>]]
    ;; Require various functions and macros from kushi.core
    [applied-science.js-interop :as j]
    [clojure.string :as string]
@@ -10,10 +11,8 @@
                        add-font-face
                        defkeyframes
                        add-google-font!]]
-
-   [fireworks.core :refer [? !? ?> !?> p]]
-   [kushi.ui.dom :as dom]
-   [kushi.ui.tooltip.core2 :refer [append-tooltip!]]
+   [domo.core :as domo]
+   [kushi.ui.dom.fune.core :refer [append-fune!]]
    ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
    [starter.shared-styles]
@@ -22,7 +21,6 @@
    ;; This example uses reagent
    [reagent.core :as r]
    [reagent.dom :as rdom]))
-
 
 
 
@@ -295,7 +293,7 @@
 
 ;; Main component.
 (defn main-view []
-  (js/console.clear)
+  ;; (js/console.clear)
   [:div
    (sx 'main-app-wrapper
        :ff--sys)
@@ -335,15 +333,19 @@
              :$ns-side-offset--50px
              :$ew-side-offset--80px
              :$edge-offset--0)
-    [badges/north-edge]
-    [badges/north-side]
-    [badges/east-edge]
-    [badges/east-side]
-    [badges/south-edge]
-    [badges/south-side]
-    [badges/west-edge]
-    [badges/west-side]
-    [badges/middle]]])
+    ;; [:div (sx :.debug-grid :$debug-grid-size--64px :w--100% :h--300px)]
+    ;; [:div (sx :.debug-grid-8 :w--100% :h--300px)]
+    ;; [:div (sx :.debug-grid-16 :w--100% :h--300px)]
+    ;; [badges/north-edge]
+    ;; [badges/north-side]
+    ;; [badges/east-edge]
+    ;; [badges/east-side]
+    ;; [badges/south-edge]
+    ;; [badges/south-side]
+    ;; [badges/west-edge]
+    ;; [badges/west-side]
+    [badges/middle]
+    ]])
 
 
 ;; Below is boilerplate code from
@@ -352,31 +354,34 @@
 ;; start is called by init and after code reloading finishes
 
 
-
 (defclass lime-bg :bgc--lime)
+
+
 (defonce active-intervals (r/atom []))
+
 
 (defn pop-tip [children n instance-delay]
   (let [el     (j/get children n)
-                enter  (dom/mouse-event :mouseenter)
-                leave  (dom/mouse-event :mouseleave)
-                append (partial append-tooltip!
-                                {:tooltip-arrow? true
-                                 :tooltip-text "-----" #_(string/join " " (dom/random-emojis 3))
-                                 :placement-kw (keyword (dom/data-attr el "kushi-ui-tooltip"))})]
+                enter  (domo/mouse-event! :mouseenter)
+                leave  (domo/mouse-event! :mouseleave)
+                append (partial append-fune!
+                                {:arrow? true
+                                 :tooltip-text "-----" #_(string/join " " (domo/random-emojis 3))
+                                 :placement-kw (keyword (domo/data-attr el "kushi-ui-fune"))})]
             (.addEventListener el "mouseenter" append #js {:once true})
             (js/setTimeout 
-             #(do (dom/dispatch-event el enter)
-                  (dom/add-class el :lime-bg)
+             #(do (domo/dispatch-event! el enter)
+                  (domo/add-class! el :lime-bg)
                   (js/setTimeout (fn [_]
                                    (.dispatchEvent el leave)
-                                   (dom/remove-class el :lime-bg))
+                                   (domo/remove-class! el :lime-bg))
                                  instance-delay))
              (* instance-delay n))))
 
+
 (defn pop-tips-profile [sel]
   (let [children       (some->> sel
-                                (dom/qs js/document)
+                                (domo/qs js/document)
                                 .-children
                                 js->clj)
         nchildren      (.-length children)
@@ -386,10 +391,12 @@
      :instance-delay instance-delay
      :interval-delay (+ instance-delay (* instance-delay nchildren))}))
 
+
 (defn pop-tip-interval! [f interval-delay]
   (swap! active-intervals
          conj
          (js/setInterval f interval-delay)))
+
 
 (defn pop-tips [sel]
   (let [{:keys [children 
@@ -417,14 +424,27 @@
             :when (not (re-find #"edge" sel))]
       (pop-tips sel))))
 
+(declare txty)
+(declare txty-map)
+(declare carpet)
 
 
 (defn ^:dev/after-load start []
   (rdom/render [main-view]
-              (.getElementById js/document "app"))
-  ;; initiate tooltip autotest
-  #_(js/setTimeout
-   (fn [] (tooltip-auto-hover))
+               #_[carpet]
+               (.getElementById js/document "app"))
+
+  #_(??? #_{:coll-limit 50}
+   
+       )
+  (js/setTimeout
+   #_(fn [] (tooltip-auto-hover))
+   #_(fn []
+       (.addEventListener js/window
+                          "mousemove"
+                          (fn [e]
+                            (println [[e.clientX e.clientY ]
+                                      (domo/screen-quadrant-from-point e.clientX e.clientY )]) )))
    200))
 
 (defn init []
@@ -445,3 +465,124 @@
 ;; this can help.
 (when ^boolean js/goog.DEBUG
   (inject!))
+
+
+
+(def txty 
+  [:top-left-corner-outside     [:t 0 :l 0 -100 -100]
+   :top-left-corner             [:t 0 :l 0 -50 -50]
+   :top-left-corner-inside      [:t 0 :l 0 0 0]
+   :top-left-outside            [:t 0 :l 0 0 -100]
+   :top-left                    [:t 0 :l 0 0 -50]
+   :top-outside                 [:t 0 :l 50 -50 -100]
+   :top                         [:t 0 :l 50 -50 -50]
+   :top-inside                  [:t 0 :l 50 -50 0]
+   :top-right-outside           [:t 0 :r 0 0 -100]
+   :top-right                   [:t 0 :r 0 0 -50]
+   :top-right-corner-outside    [:t 0 :r 0 100 -100]
+   :top-right-corner            [:t 0 :r 0 50 -50]
+   :top-right-corner-inside     [:t 0 :r 0 0 0]
+   :right-top-outside           [:t 0 :r 0 100 0]
+   :right-top                   [:t 0 :r 0 50 0]
+   :right-inside                [:t 50 :r 0 0 -50]
+   :right                       [:t 50 :r 0 50 -50]
+   :right-outside               [:t 50 :r 0 100 -50]
+   :right-bottom-outside        [:b 0 :r 0 100 0]
+   :right-bottom                [:b 0 :r 0 50 0]
+   :bottom-right-corner-outside [:b 0 :r 0 100 100]
+   :bottom-right-corner         [:b 0 :r 0 50 50]
+   :bottom-right-corner-inside  [:b 0 :r 0 0 0]
+   :bottom-right-outside        [:b 0 :r 0 0 100]
+   :bottom-right                [:b 0 :r 0 0 50]
+   :bottom-inside               [:b 0 :l 50 -50 0]
+   :bottom                      [:b 0 :l 50 -50 50]
+   :bottom-outside              [:b 0 :l 50 -50 100]
+   :bottom-left-outside         [:b 0 :l 0 0 100]
+   :bottom-left                 [:b 0 :l 0 0 50]
+   :bottom-left-corner-outside  [:b 0 :l 0 -100 100]
+   :bottom-left-corner          [:b 0 :l 0 -50 50]
+   :bottom-left-corner-inside   [:b 0 :l 0 0 0]
+   :left-bottom-outside         [:b 0 :l 0 -100 0]
+   :left-bottom                 [:b 0 :l 0 -50 0]
+   :left-inside                 [:t 50 :l 0  0 -50]
+   :left                        [:t 50 :l 0 -50 -50]
+   :left-outside                [:t 50 :l 0 -100 -50]
+   :left-top-outside            [:t 0 :l 0 -100 0]
+   :left-top                    [:t 0 :l 0 -50 0]])
+
+(def txty-map 
+  (apply hash-map txty))
+
+(def tb :top)
+
+(defn geometries [position]
+  (into
+   [:div (sx :.absolute-centered :.wireframe :w--500px :h--500px)]
+   (println 
+    (apply
+     concat 
+     (for [[k [tb tb-pct lr lr-pct tx ty]] (partition 2 txty)]
+       (let [trbl     (-> k name (string/split #"-"))
+             abbr     (string/join (map first trbl))
+             outside? (->> k name (re-find #"outside"))
+             inside?  (->> k name (re-find #"inside"))
+             style    {:position  position
+                       :top       (if (= tb :t) (str tb-pct "%") :unset)
+                       :bottom    (if (= tb :b) (str tb-pct "%") :unset)
+                       :left      (if (= lr :l) (str lr-pct "%") :unset)
+                       :right     (if (= lr :r) (str lr-pct "%") :unset)
+                       :translate (str tx "%" " " ty "%")}]
+         [(keyword (str (name k) (when (= position :fixed) "-fixed"))) style]))))))
+
+#_(geometries :fixed)
+
+#_(defn carpet-test []
+  (into
+   [:div (sx :.absolute-centered :.wireframe :w--500px :h--500px)]
+   (?pp 
+    (apply
+     concat 
+     (for [[k [tb tb-pct lr lr-pct tx ty]] (partition 2 txty)]
+       (let [trbl     (-> k name (string/split #"-"))
+             abbr     (string/join (map first trbl))
+             outside? (->> k name (re-find #"outside"))
+             inside?  (->> k name (re-find #"inside"))
+             style    {
+                    ;;  :opacity    0.2
+                    ;;  :background (cond outside? :blue inside? :orange :else :lime)
+                    ;;  :width      :100px
+                    ;;  :height     :100px
+                       :position  :absolute
+                       :top       (if (= tb :top) (str tb-pct "%") :unset)
+                       :bottom    (if (= tb :bottom) (str tb-pct "%") :unset)
+                       :left      (if (= lr :left) (str lr-pct "%") :unset)
+                       :right     (if (= lr :right) (str lr-pct "%") :unset)
+                       :translate (str tx "%" " " ty "%")}]
+         [k style]
+         #_[:div {:id    k
+                  :style style}
+            #_abbr]))))))
+
+(defn carpet []
+  (into
+   [:div (sx :.absolute-centered :.wireframe :w--500px :h--500px)]
+   (for [[k [tb tb-pct lr lr-pct tx ty]] (partition 2 txty)]
+     (let [trbl     (-> k name (string/split #"-"))
+           abbr     (string/join (map first trbl))
+           outside? (->> k name (re-find #"outside"))
+           inside?  (->> k name (re-find #"inside"))
+           style    {:opacity    0.2
+                     :background (cond outside? :blue inside? :orange :else :lime)
+                     :width      :100px
+                     :height     :100px
+                    ;;  :position   :absolute
+                    ;;  :top        (if (= tb :top) (str tb-pct "%") :unset)
+                    ;;  :bottom     (if (= tb :bottom) (str tb-pct "%") :unset)
+                    ;;  :left       (if (= lr :left) (str lr-pct "%") :unset)
+                    ;;  :right      (if (= lr :right) (str lr-pct "%") :unset)
+                    ;;  :translate  (str tx "%" " " ty "%")
+                     }]
+       [:div {:id    k
+              :style style
+              :class k}
+        ]))))

@@ -3,18 +3,22 @@
  ["src/dev"
   "src/main"
   "src/test"
+  "../domo/src/"
   "../kushi/src/"
-  "../../cljc/fireworks/src/"]
+  "../shadow-css-main/src/main/"
+  "../../cljc/fireworks/src/"
+  ]
 
  :dependencies
  [[reagent "1.1.1"]
   [binaryage/devtools "1.0.6"]
   ;; Add Kushi dependency
-  [design.kushi/kushi "1.0.0-a.19"]
-  [io.github.paintparty/fireworks "0.1.1"]]
+  [design.kushi/kushi "1.0.0-a.20"]
+  [io.github.paintparty/fireworks "0.2.0"]
+  [com.thheller/shadow-css "0.4.5"]]
 
  :dev-http
- {8020 "public"}
+ {8021 "public"}
 
  ;; Add cache-blockers for Kushi's side-effecting macros
  :cache-blockers #{kushi.core kushi.stylesheet}
@@ -23,7 +27,8 @@
  {:app
   {:devtools         {:log false}
    :target           :browser
-   :compiler-options {:output-feature-set :es8}
+   :compiler-options {:output-feature-set :es8
+                      :warnings           {:redef false}}
    :modules          {:main {:init-fn starter.browser/init}}
    :build-hooks      [
                       ;; Add Kushi build hooks

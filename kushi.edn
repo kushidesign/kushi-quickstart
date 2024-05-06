@@ -51,11 +51,20 @@
  :add-stylesheet-dev?                 true
 
  :add-css-reset?                      true
+
+ ;; Set this to false to leave out all design tokens. Many of Kushi's
+ ;; utility classes, and also the ui components rely on the design tokens
+ ;; so you probably do not want to disable this unless you are developing
+ ;; on kushi itself.
  :add-design-tokens?                  true
 
+ ;; TODO - make these work
+ ;;  :add-color-design-tokens?           true
+ ;;  :add-non-semantic-color-design-tokens?  true
 
  ;; If :add-kushi-ui-theming? is set to false, it will not include theming
  ;; classes for for kushi.ui components such as buttons, tags, etc.
+ ;; SHOULD BE true
  :add-kushi-ui-theming?               true
 
  ;; If :add-kushi-ui-theming-defclass? is set to false, it will not include
@@ -66,7 +75,7 @@
 
  ;; Set this to false to leave out dark theme variants for kushi.ui related
  ;; classes.
- :add-kushi-ui-dark-theming?          false
+ :add-kushi-ui-dark-theming?          true
 
  ;; Set this to false to leave out light theme variants for kushi.ui related
  ;; classes.
@@ -129,6 +138,7 @@
  ;; [:div.absolute "hi"]
  ;; [:div {:class [:absolute]} "hi"]
  
+ ;; SHOUD BE false
  :elide-unused-kushi-utility-classes? false
 
  ;; If you have :elide-unused-kushi-utility-classes? set to true, you can add

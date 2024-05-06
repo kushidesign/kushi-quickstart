@@ -1,14 +1,23 @@
 (ns starter.badges
   (:require
    [clojure.string :as string] 
-   [fireworks.core :refer [? !? ?> !?> p]]
-   [kushi.ui.dom :as dom]
+   [domo.emoji]
    [kushi.core :refer [sx merge-attrs defclass keyed]]
    [kushi.ui.core :refer [defcom]]
+   [kushi.ui.icon.mui.svg :as mui.svg ]
    [kushi.ui.button.core :refer [button]]
    ;; [kushi.ui.tooltip.core :refer [tooltip-attrs user-placement]]
-   [kushi.ui.tooltip.core2 :refer [tooltip-attrs]]
-   [kushi.ui.icon.core :refer [icon]]))
+   [kushi.ui.tooltip.core :refer [tooltip-attrs]]
+   [kushi.ui.popover.core :refer [popover-attrs]]
+   [kushi.ui.popover.demo :refer [popover-content]]
+   [kushi.ui.toast.core :refer [toast-attrs]]
+   [kushi.ui.toast.demo :refer [toast-content]]
+   [kushi.ui.icon.core :refer [icon]]
+   [kushi.ui.input.text.core :refer [input]]
+   [reagent.dom :as rdom]
+   [shadow.css :refer (css)]
+   ))
+
 
 
 ;; DEFINING COMPONENTS
@@ -95,7 +104,7 @@
               :after:ff--FiraCodeRegular|monospace|sans-serif
               :before:ff--FiraCodeRegular|monospace|sans-serif)
           (tooltip-attrs {:-text      ["tip1" "tip2"]
-                          :-placement :t}) )
+                          :-placement :t}))
          &children]]))
 
 
@@ -108,7 +117,10 @@
    [button (merge-attrs
             (sx :.code
                 :.no-shrink
-                :width--44px
+                :.xxxfast
+                :.debug-red
+                :width--344px
+                ;; :width--auto
                 :pb--0.5em
                 :pi--0.75em
                 :hover:bgc--lime
@@ -117,31 +129,40 @@
                 ;; :>span:c--lime!important
                 :>.code:bgc--transparent
                 ["[aria-describedby^='kushi-G__']:bgc" :lime]
-                ["has-ancestor(.n-trg)&_.kushi-floating-tooltip:writing-mode" :tb]
-                {:data-kushi-ui-tooltip pk} ;; this is for testing, not necessary
+                ["has-ancestor(.n-trg)&_.kushi-tooltip:writing-mode" :tb]
+                {:data-kushi-ui-fune pk} ;; this is for testing, not necessary
                 )
+
+            #_(toast-attrs
+             {:-auto-dismiss? false
+              :-placement     pk
+              :-f             (fn [toast-el]
+                                (rdom/render toast-content
+                                             toast-el))})
+            #_(popover-attrs {:-placement pk
+                            :-f         #(rdom/render popover-content %)})
             ;; Comment out for testing
             (tooltip-attrs 
-             (sx {:-text       (if (contains? #{:n :s} nesw)
-                                 #_["👹"
-                                    "👹"
-                                    "👹"]
-                                 #_["-" "-" "-"]
-                                 (dom/random-emojis 3)
-                                 #_(string/join " " (rando-mojis 3))
-                                #_"-----"
-                                 (string/join " " (dom/random-emojis 3))
-                                 #_"👹👹👹" 
-                                 #_"👹👹👹" #_"My Tooltip Text abcXYZ")
-                  :-placement pk
+               (sx {:-text      (if (contains? #{:n :s} nesw)
+                                  #_["👹"
+                                     "👹"
+                                     "👹"]
+                                  #_["-" "-" "-"]
+                                  (domo.emoji/random-emojis 3)
+                                  #_(string/join " " (rando-mojis 3))
+                                  #_"-----"
+                                  (string/join " " (domo.emoji/random-emojis 3))
+                                  #_"👹👹👹" 
+                                  #_"👹👹👹" #_"My Tooltip Text abcXYZ")
+                    :-placement pk
                   ;; :-placement :auto
-                  :-arrow?    true
+                    :-arrow?    true
                   ;; :-tooltip-class :lime-bg
                   ;; :-tooltip-class (when nesw
                   ;;                  (first (:class (sx 'ktt-wm-tb :writing-mode--tb))))
-                  })))
+                    })))
                 
-    [:span.code.xxxsmall pk]
+    [:span {:class (css :text-red-500 :text-xl)} (str pk)]
     ;; optional icon
     #_(when nesw
       (let [k (case nesw
@@ -154,6 +175,16 @@
                 :shift-right :arrow-forward
                 nil)]
         (when k [icon k])))]))
+
+
+
+(def my-shared-class
+  (css {:level    :user-shared-styles
+        :selector ".my-shared-class, .my-other-thing"}
+       :text-red-200
+       :text-xs))
+
+
 
 (def n-ks [:tlc :br :b :blc :lb :lt :l :tl :t :tr :rt :r :rb :brc :b :bl :trc])
 
@@ -205,8 +236,11 @@
 
 ;; West 
 (def w-ks [:ltc :tlc :tr :t :lt :l :lb :b :br :blc :lbc])
+#_(def w-ks [:ltc
+          ;;  :tlc :tr :t :lt :l :lb :b :br :blc :lbc
+           ])
 
-(defclass middle-trg :ai--c :.absolute :.flex-col-c :gap--1em [:h "calc(100% - (80px * 2))"])
+(defclass middle-trg #_:translate--200px :ai--c :.absolute :.flex-col-c :gap--1em [:h "calc(100% - (80px * 2))"])
 
 (defclass w-trg :top--80px :left--0)
 
@@ -222,10 +256,54 @@
         (for [k w-ks]
           [tipped k])))
 
-
 ;; Middle 
-(def middle-ks [:tlc :tl :t :tr :trc :rtc :rt :r :rb :rbc :ltc :lt :l :lb :lbc :b :bl :br :brc :blc])
-;; (def middle-ks [:rtc])
+;; (def middle-ks [:tlc :trc :rtc :ltc :t :tl :tr :rt :r :rb :bl :br :b :lt :l :lb :lbc :rbc :blc :brc])
+(def middle-ks [:t])
+#_(def middle-ks [:tl :t :tr :trc :rt :r :rb :brc :br :b :bl :blc :l])
+
+#_(def middle-ks 
+  [[:inline-start :block-start :corner]
+   [:inline-start :block-start]
+   [:inline-start :center]
+   [:inline-start :block-end]
+   [:inline-start :block-end :corner]
+   [:inline-end :block-start :corner]
+   [:inline-end :block-start]
+   [:inline-end :center]
+   [:inline-end :block-end]
+   [:inline-end :block-end :corner]
+   [:block-start :inline-start :corner]
+   [:block-start :inline-start]
+   [:block-start :center]
+   [:block-start :inline-end]
+   [:block-start :inline-end :corner]
+   [:block-end :inline-start :corner]
+   [:block-end :inline-start]
+   [:block-end :center]
+   [:block-end :inline-end]
+   [:block-end :inline-end :corner]])
+
+#_(def middle-ks 
+  [["inline-start" "block-start" "corner"]
+   ["inline-start" "block-start"]
+   ["inline-start" "center"]
+   ["inline-start" "block-end"]
+   ["inline-start" "block-end" "corner"]
+   ["inline-end" "block-start" "corner"]
+   ["inline-end" "block-start"]
+   ["inline-end" "center"]
+   ["inline-end" "block-end"]
+   ["inline-end" "block-end" "corner"]
+   ["block-start" "inline-start" "corner"]
+   ["block-start" "inline-start"]
+   ["block-start" "center"]
+   ["block-start" "inline-end"]
+   ["block-start" "inline-end" "corner"]
+   ["block-end" "inline-start" "corner"]
+   ["block-end" "inline-start"]
+   ["block-end" "center"]
+   ["block-end" "inline-end"]
+   ["block-end" "inline-end" "corner"]])
 
 (defn middle []
   (into [:div (sx :.middle-trg
