@@ -80,6 +80,8 @@
 
 
 ;; Uses kushi.ui.tooltip.core/tooltip-attrs to create tooltip
+;; :-tooltip-text and :-tooltip-placement are custom attributes,
+;; specific to this component
 (defcom icon-badge-link
   (let [{:keys [tooltip-text tooltip-placement]} &opts]
     [:a &attrs
@@ -112,8 +114,9 @@
       [icon-badge-link
        {:href               "https://github.com/kushidesign/kushi"
         :src                src
-        :-tooltip-text      "View project on github "
-        :-tooltip-placement :left}
+        :target             :_blank
+        :-tooltip-placement :bottom
+        :-tooltip-text      "View project on github"}
        
        [contained-image (sx :.grayscale
                             :.small-badge
@@ -123,8 +126,9 @@
       [icon-badge-link
        {:href               "https://clojars.org/design.kushi/kushi"
         :src                src
-        :-tooltip-text      "View project at clojars.org "
-        :-tooltip-placement :right}
+        :target             :_blank
+        :-tooltip-placement :bottom
+        :-tooltip-text      "View project at clojars.org"}
        
        [contained-image (sx :.grayscale
                             :.small-badge

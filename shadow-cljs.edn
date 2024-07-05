@@ -2,13 +2,14 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"]
+  "src/test"
+  "../kushi/src"]
 
  :dependencies
  [[reagent "1.1.1"]
   [binaryage/devtools "1.0.6"]
   ;; Add Kushi dependency
-  [design.kushi/kushi "1.0.0-a.20"]]
+  [design.kushi/kushi "1.0.0-a.21"]]
 
  :dev-http
  {8020 "public"}
