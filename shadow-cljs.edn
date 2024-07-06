@@ -2,8 +2,7 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"
-  "../kushi/src"]
+  "src/test"]
 
  :dependencies
  [[reagent "1.1.1"]
