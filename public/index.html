@@ -4,16 +4,22 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!---
-    The value of the `href` in the link tag below needs to align with the provided value in your kushi.edn config file.
-    At minimum, you must specify a value for :css-dir in your kushi.edn.
-    You can optionally specify a value for :css-filename.
-    The default value for :css-filename will be `kushi.css`.
+    The value of the `href` in the link tag below needs to align with the
+    provided value in your `kushi.edn` config file.
+
+    At minimum, you must specify a value for :css-dir in your `kushi.edn`.
+    Usually this is something like "public/css".
+
+    You can optionally specify a value for `:css-filename`.
+    The fallback value for `:css-filename` will be `kushi.css`.
   -->
   <link rel="stylesheet" href="./css/kushi.css" type="text/css">
+
   <title>Kushi Quickstart</title>
 </head>
-<body  class="dark">
+<body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="app"></div>
   <script src="./js/main.js"></script>

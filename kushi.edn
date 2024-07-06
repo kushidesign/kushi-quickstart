@@ -110,7 +110,7 @@
  ;; kushi.ui.tag.core/tag
 
  ;; elide-ui-variants-semantic can include the following keywords:
- ;; :accent :negative :warning :neutral :positive
+ ;; :accent :negative :warning :positive
  :elide-ui-variants-semantic          #{} 
  ;; elide-ui-variants-style can include the following keywords:
  ;; can include :bordered :minimal :filled

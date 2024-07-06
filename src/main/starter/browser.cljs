@@ -87,8 +87,8 @@
 ;; The location of the font file must be a path, relative the location of the
 ;; generated css file. You could also use a remote url to load a hosted font.
 
-;; In the case of this kushi quickstart demo, we are using FiraCodeRegular for
-;; the tooltip text within `starter.bandges/icon-badge-link`.
+;; In the case of this kushi quickstart demo, we are using FiraCodeRegular
+;; for the `twirling-subheader` component.
 
 (add-font-face {:font-family "FiraCodeRegular"
                 :font-weight "300"

@@ -1,11 +1,10 @@
 # Kushi quickstart
 [Kushi](https://github.com/kushidesign/kushi) is a complete styling and UI solution for ClojureScript.
 
-This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the src files of this project.
+This template demonstrates how to setup a project with Kushi, using [shadow-cljs](https://github.com/thheller/shadow-cljs) and [Reagent](https://reagent-project.github.io/). You can find most of the documentation and examples that you need to get started via comments in the source files of this project.
 
 This template is based on [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser)
 
-The example `kushi.edn` features all the options (set to their defaults), with descriptive commentary. By design, this quickstart template includes all the relevant css to allow you to explore the design system, design tokens, semantic variants, and the entire kushi.ui library of pre-built components. In a real-world project, you may very well be using only a subset of these things, in which case you can aggressively elide different categories of css and reduce your bundle size. The comments in the kushi.edn file describe which options write kind of css.
 
 
 <br>
@@ -29,26 +28,48 @@ npx shadow-cljs watch app
 
 This will begin the compilation of the configured `:app` build and re-compile whenever you change a file.
 
-When you see a kushi report followed by a "Build completed." message (from shadow-cljs) your build is ready to be used.
+When you see some Kushi-specific stats followed by a `"Build completed"` message (from `shadow-cljs`), your build is ready to be used.
 
 ```bash
 [:app] Compiling ...
-[:app] Using Kushi <version>
-[:app] [Kushi <version>] - Writing 281 rules and 319 tokens.
-[:app] Build completed. (176 files, 175 compiled, 0 warnings, 13.19s)
+[:app] Using Kushi v1.0.0-a.21
+[:app] [Kushi v1.0.0-a.21] - Writing 709 rules and 1276 tokens.
+[:app] Build completed. (166 files, 6 compiled, 0 warnings, 7.60s)
 ```
 
-You can view this app at  [http://localhost:8020](http://localhost:8020).
+View it at [http://localhost:8020](http://localhost:8020).
 
+The app is only a very basic skeleton.
 
-The app is only a very basic skeleton. Please see [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser) for more detailed info `shadow-cljs`-specific configuration options.
+For more info on using Kushi UI components, check out the [kushi.design](https://kushi.design).
+
+For detailed info on syntax and other features, check out the official [Kushi docs](https://github.com/kushidesign/kushi).
+
+For more general info on `shadow-cljs`-specific configuration options, check out [shadow-cljs/browser-quickstart](https://github.com/shadow-cljs/quickstart-browser). 
+
+<br>
+
+## CSS size
+
+By design, this quickstart will emit all the css which allows exploration of the design system, design tokens, semantic variants, and the entire library of pre-built components, even if you are just trying things out in your browser's dev tooling.
+
+In a real-world project, you may very well be using only a subset of these things, in which case you can aggressively elide different categories of styles and reduce the size of your emitted css. The comments in the `kushi.edn` file describe which options write what kind of css. For example, if you use the following settings, the emitted css of this demo will be reduced to `50kb`/`8kb`gzip (from `137kb`/`16kb`gzip): 
+
+```Clojure
+{...
+ :elide-ui-variants-style #{:bordered :minimal :filled}
+ :elide-ui-variants-semantic #{:accent :negative :warning :positive}
+ :elide-unused-kushi-utility-classes? true
+ ...}
+```
+
 
 <br>
 
 ## Manual Setup Details
-If you were to setup kushi manually, starting with the base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
+If you were to setup Kushi manually, starting with the same base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
 
-#### 1) Add dependency, cache-blockers, and build hooks in `shadow-cljs.edn`
+#### 1) &nbsp; Add dependency, cache-blockers, and build hooks in `shadow-cljs.edn`
 ```Clojure
 ;; shadow-cljs configuration
 
@@ -59,7 +80,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.19"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.21"] ; ! Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
@@ -89,7 +110,7 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 ```
 <br>
 
-#### 2) Create a `kushi.edn` at your project's root
+#### 2) &nbsp; Create a `kushi.edn` at your project's root
 
 ```Clojure
 ;; This is a map with, at minimum, a `:css-dir` entry.
@@ -100,9 +121,9 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
 ```
 <br>
 
-#### 3) Add the required `<link>` tag to your `index.html`
+#### 3) &nbsp; Add the required `<link>` tag to your `index.html`
 ```html
-<!-- The two tags with comments above them must be included for kushi to work. -->
+<!-- The two tags with comments above them must be included for Kushi to work. -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,10 +133,10 @@ If you were to setup kushi manually, starting with the base [shadow-cljs templat
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!---
     The value of the `href` in the link tag below needs to
-    align with the provided value in your kushi.edn config file.
-    At minimum, you must specify a value for :css-dir in your kushi.edn.
-    You can optionally specify a value for :css-filename.
-    The default value for :css-filename will be `kushi.css`.
+    align with the provided value in your `kushi.edn` config file.
+    At minimum, you must specify a value for :css-dir in your `kushi.edn`.
+    You can optionally specify a value for `:css-filename`.
+    The default value for `:css-filename` will be `kushi.css`.
   -->
   <link rel="stylesheet" href="./css/kushi.css" type="text/css">
   <title>Kushi Quickstart</title>
@@ -139,5 +160,3 @@ At the very bottom of your app's main ns, you may want to include:
 This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when developing, this can help.
 
 <br>
-
-Please see `src/main/starter/browser.cljs`, `src/main/starter/badges.cljs`, and `src/main/starter/shared_styles.cljs` for details on requiring and using various kushi functionality.

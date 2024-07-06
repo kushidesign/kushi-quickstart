@@ -1,9 +1,7 @@
 (ns starter.badges
   (:require
    [kushi.core :refer [sx merge-attrs]]
-   [kushi.ui.core :refer [defcom]]
-   [kushi.ui.button.core :refer [button]]
-   [kushi.ui.tooltip.core :refer [tooltip-attrs]]))
+   [kushi.ui.core :refer [defcom]]))
 
 
 ;; DEFINING COMPONENTS
@@ -79,23 +77,15 @@
     &attrs)])
 
 
-;; Uses kushi.ui.tooltip.core/tooltip-attrs to create tooltip
-;; :-tooltip-text and :-tooltip-placement are custom attributes,
-;; specific to this component
 (defcom icon-badge-link
-  (let [{:keys [tooltip-text tooltip-placement]} &opts]
-    [:a &attrs
-        [button
-         (merge-attrs
-          (sx :hover:bgc--transparent
-              :hover:c--white
-              :bgc--transparent
-              :p--0
-              :after:ff--FiraCodeRegular|monospace|sans-serif
-              :before:ff--FiraCodeRegular|monospace|sans-serif)
-          (tooltip-attrs {:-text      tooltip-text
-                          :-placement tooltip-placement}))
-         &children]]))
+  [:a &attrs
+   [:button
+    (merge-attrs
+     (sx 
+      :.pointer
+      :o--0.85
+      :hover:o--1))
+    &children]])
 
 
 ;; Usage of the components defined above.
@@ -114,9 +104,7 @@
       [icon-badge-link
        {:href               "https://github.com/kushidesign/kushi"
         :src                src
-        :target             :_blank
-        :-tooltip-placement :bottom
-        :-tooltip-text      "View project on github"}
+        :target             :_blank }
        
        [contained-image (sx :.grayscale
                             :.small-badge
@@ -126,9 +114,7 @@
       [icon-badge-link
        {:href               "https://clojars.org/design.kushi/kushi"
         :src                src
-        :target             :_blank
-        :-tooltip-placement :bottom
-        :-tooltip-text      "View project at clojars.org"}
+        :target             :_blank}
        
        [contained-image (sx :.grayscale
                             :.small-badge
