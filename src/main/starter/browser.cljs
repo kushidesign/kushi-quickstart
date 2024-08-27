@@ -8,13 +8,13 @@
                        defkeyframes
                        add-google-font!]]
 
+   [starter.theme]
    ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
    [starter.shared-styles]
 
    ;; This example uses reagent
    [reagent.dom :as rdom]))
-
 
 
 
@@ -116,6 +116,7 @@
 ;; ............................................................................
 
 ;; You can use kushi.core/sx to co-locate styles within your components.
+
 ;; Media queries, pseudo-classes, pseudo-elements, combo-selectors, and dynamic
 ;; runtime values are all supported.
 
@@ -266,7 +267,9 @@
 ;; 3) Tokenized keyword with css "alt list" shorthand
 ;;    :ff--FiraCodeRegular|monospace|sans-serif
 
-;; 4) Using media queries - :sm:fs--14px
+;; 4) Using a media query to provide an alternate style.
+;;    In this case we are making the font-size larger at the "small" breakpoint
+;;    with `:sm:fs--14px`
 
 ;; 5) Passing an attributes map (optional last arg to sx)
 

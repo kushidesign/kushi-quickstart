@@ -62,7 +62,7 @@
 ;; https://github.com/kushidesign/kushi#manually-defining-complex-components.
 
 
-;; Below, `contained-image` and `twirling-badge` both use defmacro to create
+;; Below, `contained-image` and `icon-badge-link` both use defmacro to create
 ;; reusable components. They also use kushi.core/merge-attrs to properly merge
 ;; user-passed attributes.
 
