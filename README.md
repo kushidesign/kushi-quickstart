@@ -32,8 +32,8 @@ When you see some Kushi-specific stats followed by a `"Build completed"` message
 
 ```bash
 [:app] Compiling ...
-[:app] Using Kushi v1.0.0-a.21
-[:app] [Kushi v1.0.0-a.21] - Writing 709 rules and 1276 tokens.
+[:app] Using Kushi v1.0.0-a.22
+[:app] [Kushi v1.0.0-a.22] - Writing 709 rules and 1276 tokens.
 [:app] Build completed. (166 files, 6 compiled, 0 warnings, 7.60s)
 ```
 
@@ -80,7 +80,7 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.21"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.22"] ; ! Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
