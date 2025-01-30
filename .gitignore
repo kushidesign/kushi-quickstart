@@ -8,7 +8,7 @@
 /*.iml
 /.nrepl-port
 /.idea
-/public/css/kushi.css
+/public/css/
 /.calva
 /tmp
 .hgignore
@@ -18,3 +18,4 @@
 .calva
 .vscode
 .idea
+.cpcache
