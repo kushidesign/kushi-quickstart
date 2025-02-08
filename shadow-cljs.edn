@@ -1,6 +1,6 @@
 ;; shadow-cljs configuration
 {:deps
- {:aliases [:local-dev]}
+ {:aliases [:dev]}
 
  :dev-http
  {8020 "public"}
