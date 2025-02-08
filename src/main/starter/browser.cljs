@@ -18,64 +18,6 @@
    [reagent.dom :as rdom]))
 
 
-;; Injecting Stylesheets
-;; ............................................................................
-
-
-;; Optional.
-;; Using kushi.core/add-stylesheet! to inject a static css file.
-;; This stylesheet might be a css reset file, or a third-party style library.
-;; This is more of an edge case, as you would typically just do this with a
-;; <link> in your index.html. However, if your project uses a clj file to
-;; generate the contents of your index's <head> at build time, it may be handy
-;; to use this during development to inject new stylesheets without restarting
-;; your build.
-
-(add-stylesheet! {:rel  "stylesheet"
-                  :href "css/my-global-styles.css"})
-
-
-;; Optional.
-;; Using kushi.core/inject-stylesheet to load a google font.
-;; The additional "preconnect" hints will improve Google Fonts performance.
-
-(add-stylesheet!
- {:rel          "preconnet"
-  :href         "https://fonts.gstatic.com"
-  :cross-origin "anonymous"})
-
-(add-stylesheet!
- {:rel  "preconnet"
-  :href "https://fonts.googleapis.com"})
-
-(add-stylesheet!
- {:rel  "stylesheet"
-  :href "https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap"})
-
-
-;; If you want to add Google Fonts, you can also just use
-;; `kushi.core/add-google-fonts!`, which will abstract the above pattern
-;; (3 separate calls) into one call:
-
-(add-google-fonts! {:family "Inter"
-                   :styles {:normal [400 700]
-                            :italic [400 700]}})
-
-
-;;`kushi.core/add-google-fonts!` accepts any number of args, each one a single
-;; map that represents a font-family and associated weights & styles. You can
-;; as many different families as you want in a single go (although be mindful
-;; of performance):
-
-(add-google-fonts! {:family "Playfair Display"
-                    :styles {:normal [400 700]
-                             :italic [400 700]}}
-                   {:family "Lato"
-                    :styles {:normal [100 400]}}
-                   {:family "Pacifico"
-                    :styles {:normal [400]}})
-
-
 
 ;; Defining animation keyframes with defcss.
 ;; 
@@ -179,28 +121,20 @@
 ;; the prop being expressed as a string:
 ;;     (sx ["nth:child(2):c" :red])
 
-
-;; You can use runtime variable values with the same tuple syntax.
-;;     (sx [:c mycolor])
-
-;; You could also write this as:
-;;     (sx {:style {:color mycolor})
+;; You can also use a map instead of the 2-element syntax:
+;;     (sx {"nth:child(2):c" :red})
 
 
-;; You can use conditional logic to apply different values base
-;; on runtime variables.
-;;     (sx [:c (if danger? :red :green)])
-
-
-;; The tuple syntax is also necessary for css functions and string values.
+;; The tuple (or map) syntax is also necessary for css functions and string values.
 ;;
 ;; Expressing a value as a css function:
-;;     (sx [:transform '(translateY :-100px)])
-;;     (sx {:style {:transform '(translateY :-100px)}})
-;;
-;; When a string is desired, or necessary:
-;;     (sx [:before:content "\"*\""])
-;;     (sx {:style {:before:content "\"*\""}})
+;;     (sx [:transform "translateY(-100px)"]
+;;         [:before:content "\"*\""])
+;; 
+;; Same as above, using a map
+;;     (sx {:transform      "translateY(-100px)"
+;;          :before:content "\"*\""})
+
 
 
 
@@ -208,11 +142,18 @@
 
 ;; First, we define a subcomponent for the rotating banner headline "layers"
 ;; This example component demonstrates the following:
+;;
 ;; 1) Using shared styles, the :.headline and :.twirl classes, which are defined
 ;;    in browser.shared-styles.
+;;
 ;; 2) Using kushi's shorthand syntax via tokenized keyword
 ;;    :animation-name--x-axis-spinner
-;; 3) Using dynamic values for color and animation duration.
+;;
+;; 3) Using kushi's shorthand syntax via tokenized keyword, with `$` syntax for 
+;;    css vars.
+;;    :animation-duration--$duration
+;;
+;; 3) Using local dynamic values for color and animation duration.
 
 (defn headline-layer
   [color duration]
@@ -229,19 +170,14 @@
 ;; Next, we define a subcomponent for the sub-header.
 ;; This example `twirling-subheader` component demonstrates the following:
 
-;; 1) Using a quoted symbol to create your own selector name,
-;;    instead of default auto-generated selector.
+;; 1) Using kushi's shorthand syntax via tokenized keywords.
 
-;; 2) Using kushi's shorthand syntax via tokenized keywords.
-
-;; 3) Tokenized keyword with css "alt list" shorthand
+;; 2) Tokenized keyword with css "alt list" shorthand
 ;;    :ff--FiraCodeRegular|monospace|sans-serif
 
-;; 4) Using a media query to provide an alternate style.
+;; 3) Using a media query to provide an alternate style.
 ;;    In this case we are making the font-size larger at the "small" breakpoint
 ;;    with `:sm:fs--14px`
-
-;; 5) Passing an attributes map (optional last arg to sx)
 
 (defn twirling-subheader [s]
   [:div
@@ -278,8 +214,8 @@
          :md:h--500px
          [:transform "translateY(calc(-100vh / 33))"])
 
-     ;; The color tokens below are defined globally in the :theme entry in the
-     ;; project's kushi.edn config file.
+     ;; The color tokens (css vars) below are defined globally in the :theme
+     ;; entry in the project's kushi.edn config file.
      [:div
       [headline-layer "var(--howlite-blue)" :12s]
       [headline-layer "var(--canary-yellow)" :3s]
