@@ -28,14 +28,8 @@ npx shadow-cljs watch app
 
 This will begin the compilation of the configured `:app` build and re-compile whenever you change a file.
 
-When you see some Kushi-specific stats followed by a `"Build completed"` message (from `shadow-cljs`), your build is ready to be used.
+When you see a `"Build completed"` message (from `shadow-cljs`), your build is ready to be used.
 
-```bash
-[:app] Compiling ...
-[:app] Using Kushi v1.0.0-a.22
-[:app] [Kushi v1.0.0-a.22] - Writing 709 rules and 1276 tokens.
-[:app] Build completed. (166 files, 6 compiled, 0 warnings, 7.60s)
-```
 
 View it at [http://localhost:8020](http://localhost:8020).
 
@@ -53,15 +47,7 @@ For more general info on `shadow-cljs`-specific configuration options, check out
 
 By design, this quickstart will emit all the css which allows exploration of the design system, design tokens, semantic variants, and the entire library of pre-built components, even if you are just trying things out in your browser's dev tooling.
 
-In a real-world project, you may very well be using only a subset of these things, in which case you can aggressively elide different categories of styles and reduce the size of your emitted css. The comments in the `kushi.edn` file describe which options write what kind of css. For example, if you use the following settings, the emitted css of this demo will be reduced to `50kb`/`8kb`gzip (from `137kb`/`16kb`gzip): 
-
-```Clojure
-{...
- :elide-ui-variants-style #{:bordered :minimal :filled}
- :elide-ui-variants-semantic #{:accent :negative :warning :positive}
- :elide-unused-kushi-utility-classes? true
- ...}
-```
+In a real-world project, you may very well be using only a subset of these things. In a shadow-cljs `release` build, the Kushi's CSS transpilation is designed to only include what you use in your code. 
 
 
 <br>
@@ -69,7 +55,7 @@ In a real-world project, you may very well be using only a subset of these thing
 ## Manual Setup Details
 If you were to setup Kushi manually, starting with the same base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
 
-#### 1) &nbsp; Add dependency, cache-blockers, and build hooks in `shadow-cljs.edn`
+#### 1) &nbsp; Add dependency and Kushi build hook in `shadow-cljs.edn`
 ```Clojure
 ;; shadow-cljs configuration
 
@@ -80,14 +66,11 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.22"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.24"] ; ! Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
  {8020 "public"}
-
- :cache-blockers
- #{kushi.core kushi.stylesheet} ; ! Add these 2 namespaces to :cache-blockers entry.
 
  :builds
  {:app
@@ -95,8 +78,7 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
    :browser
 
    :build-hooks
-   [(kushi.core/kushi-debug)
-    (kushi.stylesheet/create-css-file)] ; ! Kushi build hooks
+   [(kushi.css.build.analyze/hook)] ; ! Kushi build hooks
 
    :output-dir
    "public/js"
