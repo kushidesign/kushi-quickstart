@@ -1,5 +1,20 @@
 
-{:theme
+{
+ ;; Optional. Must be a path to a dir, relative to the root of your project
+;;  :css-dir                             
+;;  "./public/css"
+
+
+ ;; Optional. Defaults to "main", which creates `main.css`
+;;  :css-filename                        
+;;  "main"
+
+ ;; Optional. Defaults to "bundle", which creates `bundle.css`
+;;  :css-bundle-filename                        
+;;  "bundle"
+
+ ;; Provide your own design tokens or overrides for kushi's design tokens
+ :theme
  {:design-tokens
   [:--sans-serif-font-stack                 "Inter, system-ui, sans-serif"
    :--serif-font-stack                      "'Source Serif 4', Times, serif"
@@ -14,21 +29,6 @@
    :--deep-fuscsia                          :#ec018b
    :--canary-yellow                         :#fef200
    :--tooltip-color                         :$gray50
-   :--tooltip-background-color              :transparent]
-  
-  :ui
-  ["body"
-   {:font-family      :$sans-serif-font-stack
-    :background-color :black}
-   
-  ;;  "code, .code"
-  ;;  {:bgc :$code-background-color
-  ;;   :c   :$code-color}
-   
-  ;;  ".dark code, .dark .code"
-  ;;  {:bgc :$code-background-color-inverse
-  ;;   :c   :$code-color-inverse}
-   ]
-  }
+   :--tooltip-background-color              :transparent]}
  }
 
