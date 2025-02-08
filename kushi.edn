@@ -1,8 +1,7 @@
-
 {
  ;; Optional. Must be a path to a dir, relative to the root of your project
-;;  :css-dir                             
-;;  "./public/css"
+ :css-dir                             
+ "./public/css"
 
 
  ;; Optional. Defaults to "main", which creates `main.css`

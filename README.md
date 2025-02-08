@@ -11,8 +11,9 @@ This template is based on [shadow-cljs/browser-quickstart](https://github.com/sh
 
 ## Required Software
 
-- [node.js (v6.0.0+)](https://nodejs.org/en/download/)
 - [Java JDK (8+)](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or [Open JDK (8+)](http://jdk.java.net/10/)
+- [node.js (v6.0.0+)](https://nodejs.org/en/download/)
+- [Lightning CSS](https://lightningcss.dev/docs.html)
 
 
 <br>
@@ -53,7 +54,7 @@ In a real-world project, you may very well be using only a subset of these thing
 <br>
 
 ## Manual Setup Details
-If you were to setup Kushi manually, starting with the same base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 3 steps:
+If you were to setup Kushi manually, starting with the same base [shadow-cljs template](https://github.com/shadow-cljs/quickstart-browser), you would follow these 4 steps:
 
 #### 1) &nbsp; Add dependency and Kushi build hook in `shadow-cljs.edn`
 ```Clojure
@@ -96,49 +97,27 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
 
 ```Clojure
 ;; This is a map with, at minimum, a `:css-dir` entry.
-;; This must be relative to project root e.g "public/css" or "resources/public/css".
+;; This must be relative to project root e.g "./public/css".
 ;; Please see the provided kushi.edn file for additional options.
 
-{:css-dir "public/css"}
+{:css-dir "./public/css"}
 ```
 <br>
 
 #### 3) &nbsp; Add the required `<link>` tag to your `index.html`
-```html
-<!-- The two tags with comments above them must be included for Kushi to work. -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!---
-    The value of the `href` in the link tag below needs to
-    align with the provided value in your `kushi.edn` config file.
-    At minimum, you must specify a value for :css-dir in your `kushi.edn`.
-    You can optionally specify a value for `:css-filename`.
-    The default value for `:css-filename` will be `kushi.css`.
-  -->
-  <link rel="stylesheet" href="./css/kushi.css" type="text/css">
-  <title>Kushi Quickstart</title>
-</head>
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="app"></div>
-  <script src="./js/main.js"></script>
-</body>
-</html>
-```
+Checkout the [`index.html`](https://github.com/kushidesign/kushi-quickstart/blob/main/public/index.html) file in this repo
 
 <br>
 
+#### 4) &nbsp; Install `lightningcss-cli` locally or globally
+ Kushi uses [Lightning CSS](https://lightningcss.dev/) for bundling,
+ minification, and syntax lowering for older browsers.
 
-At the very bottom of your app's main ns, you may want to include:
-```Clojure
-(when ^boolean js/goog.DEBUG
-  (inject!))
-```
-This will inject the same stylesheet that kushi writes to disk into your browser, during development builds. You may not need or want to do this but if you are experiencing visual jankiness on reloads when developing, this can help.
-
-<br>
+ Install locally
+ ```
+ npm install --save-dev lightningcss-cli
+ ```
+ Or, install globally
+ ```
+ npm install -g lightningcss-cli
+ ```
