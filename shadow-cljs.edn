@@ -9,7 +9,7 @@
  {:app
   {:devtools         {:log false}
    :target           :browser
-  ;;  :compiler-options {:output-feature-set :es8}
+   ;; :compiler-options {:output-feature-set :es8}
    :modules          {:main {:init-fn starter.browser/init}}
    :build-hooks      [
                       ;; Add Kushi build hook
