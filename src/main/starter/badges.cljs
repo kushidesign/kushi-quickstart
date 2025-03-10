@@ -1,7 +1,7 @@
 (ns starter.badges
   (:require
    [kushi.core :refer [css sx merge-attrs]]
-   [kushi.ui.core :refer [opts+children]]))
+   [kushi.ui.core :refer [extract]]))
 
 
 ;; DEFINING COMPONENTS
@@ -10,7 +10,7 @@
 
 
 (defn contained-image [& args]
-  (let [[opts attrs & children] (opts+children args)]
+  (let [{:keys [opts attrs children]} (extract args contained-image)]
     [:img
      (merge-attrs
       (sx :max-height--100%
@@ -20,7 +20,7 @@
 
 
 (defn icon-badge-link [& args]
-  (let [[opts attrs & children] (opts+children args)]
+  (let [{:keys [opts attrs children]} (extract args icon-badge-link)]
     [:a attrs
      (into [:button
             (merge-attrs
