@@ -13,7 +13,7 @@ This template is based on [shadow-cljs/browser-quickstart](https://github.com/sh
 
 - [Java JDK (8+)](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or [Open JDK (8+)](http://jdk.java.net/10/)
 - [node.js (v6.0.0+)](https://nodejs.org/en/download/)
-- [Lightning CSS](https://lightningcss.dev/docs.html)
+- [Lightning CSS](https://lightningcss.dev/docs.html) (This will be installed via this quickstart template, when you do `npm install`)
 
 
 <br>
@@ -58,8 +58,6 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
 
 #### 1) &nbsp; Add dependency and Kushi build hook in `shadow-cljs.edn`
 ```Clojure
-;; shadow-cljs configuration
-
 {:source-paths
  ["src/dev"
   "src/main"
@@ -67,7 +65,7 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
 
  :dependencies
  [[reagent "1.1.1"]
-  [design.kushi/kushi "1.0.0-a.24"] ; ! Kushi dependency
+  [design.kushi/kushi "1.0.0-a.24"] ; <- Kushi dependency
   [binaryage/devtools "1.0.6"]]
 
  :dev-http
@@ -79,7 +77,7 @@ If you were to setup Kushi manually, starting with the same base [shadow-cljs te
    :browser
 
    :build-hooks
-   [(kushi.css.build.analyze/hook)] ; ! Kushi build hooks
+   [(kushi.css.build.analyze/hook)] ; <- Kushi build hook
 
    :output-dir
    "public/js"
@@ -121,3 +119,14 @@ Checkout the [`index.html`](https://github.com/kushidesign/kushi-quickstart/blob
  ```
  npm install -g lightningcss-cli
  ```
+
+ <br>
+
+
+#### 5) &nbsp; Start a dev build
+
+```
+npm install 
+
+npx shadow-cljs watch app
+```
