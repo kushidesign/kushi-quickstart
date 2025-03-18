@@ -1,38 +1,26 @@
 (ns starter.browser
   (:require
    ;; Require various functions and macros from kushi.core
-   ;; [fireworks.core :refer [? !? ?> !?>]]
-   [kushi.core :refer [sx
-                       css
-                       defcss
-                       css-vars-map]]
-   [kushi.inject :refer [add-stylesheet!
-                         add-google-fonts!
-                         add-stylesheet!]]
-   [starter.theme]
+   [kushi.core :refer [sx merge-attrs]]
+
+   ;; Require some components
+   [kushi.playground.ui :refer [light-dark-mode-switch]]
+   [kushi.ui.core :refer [opts+children]]
+   [kushi.ui.button.core :refer [button]]
+   [kushi.ui.callout.core :refer [callout]]
+   [kushi.ui.card.core :refer [card]]
+   [kushi.ui.icon.core :refer [icon]]
+   [kushi.ui.radio.core :refer [radio]]
+   [kushi.ui.switch.core :refer [switch]]
+   [kushi.ui.text-field.core :refer [text-field]]
+   [kushi.ui.tag.core :refer [tag]]
+
    ;; Require your apps shared classes and component namespaces
    [starter.badges :as badges]
    [starter.shared-styles]
 
    ;; This example uses reagent
    [reagent.dom :as rdom]))
-
-
-
-;; Defining animation keyframes with defcss.
-;; 
-;; You can also use defcss to define shared classes, see the
-;; starter.browser.shared-styles namespace in this project. 
-;; ............................................................................
-
-(defcss "@keyframes y-axis-spinner"
-  [:0% {:transform "rotateY(0deg)"}]
-  [:100% {:transform "rotateY(360deg)"}])
-
-(defcss "@keyframes x-axis-spinner"
-  [:0% {:transform "rotateX(0deg)"}]
-  [:100% {:transform "rotateX(360deg)"}])
-
 
 
 ;; Styling component elements with kushi.core/sx
@@ -137,91 +125,166 @@
 
 
 
+(defn samples [& args]
+  (let [[opts attrs & children] (opts+children args)
+        {:keys [label]} opts]
+   [:section
+    attrs
+    [:h2 
+     (sx {:fs         :$xsmall 
+          :font-style :italic
+          :ff         :$serif-font-stack
+          :mb         :1em})
+     label]
+    (into [:section
+           (sx :.flex-row-fs
+               :.examples
+               {:gap       :1rem})]
+          children)]))
 
-;; Now, some working code...
-
-;; First, we define a subcomponent for the rotating banner headline "layers"
-;; This example component demonstrates the following:
-;;
-;; 1) Using shared styles, the :.headline and :.twirl classes, which are defined
-;;    in browser.shared-styles.
-;;
-;; 2) Using kushi's shorthand syntax via tokenized keyword
-;;    :animation-name--x-axis-spinner
-;;
-;; 3) Using kushi's shorthand syntax via tokenized keyword, with `$` syntax for 
-;;    css vars.
-;;    :animation-duration--$duration
-;;
-;; 3) Using local dynamic values for color and animation duration.
-
-(defn headline-layer
-  [color duration]
-  [:div
-   {:style (css-vars-map color duration)
-    :class (css :.headline
-                :.twirl
-                :animation-name--x-axis-spinner
-                :animation-duration--$duration
-                :color--$color)}
-   "Kushi"])
-
-
-;; Next, we define a subcomponent for the sub-header.
-;; This example `twirling-subheader` component demonstrates the following:
-
-;; 1) Using kushi's shorthand syntax via tokenized keywords.
-
-;; 2) Tokenized keyword with css "alt list" shorthand
-;;    :ff--FiraCodeRegular|monospace|sans-serif
-
-;; 3) Using a media query to provide an alternate style.
-;;    In this case we are making the font-size larger at the "small" breakpoint
-;;    with `:sm:fs--14px`
-
-(defn twirling-subheader [s]
-  [:div
-   {:class    (css :.twirl
-                   :position--relative
-                   :ta--center
-                   :ff--FiraCodeRegular|monospace|sans-serif
-                   :fs--12px
-                   :sm:fs--14px
-                   :fw--800
-                   :c--white)
-    :on-click #(prn "clicked!")}
-   s])
-
-
-;; Main component. All the elements in this component are styled using
-;; kushi.core/sx, because they do not need any other attributes other
-;; than :class
 (defn main-view []
-  [:div (sx :ff--$sans-serif-font-stack)
-   [:div
-    (sx :.flex-col-c
-        :.absolute-fill
-        :ai--c
-        :h--100%
-        :bgc--black)
+  [:main
+   (sx {"--nav-height"     :70px
+        "--padding-inline" :2rem
+        "--padding-block"  :1rem
+        :font-weight       :$light})
 
-    [:div
-     (sx :.flex-col-sb
-         :ai--c
-         :w--100%
-         :h--200px
-         :sm:h--375px
-         :md:h--500px
-         [:transform "translateY(calc(-100vh / 33))"])
+   [:nav 
+    (sx :.grid
+        {:gtc      :1fr:1fr:1fr
+         :ai       :c
+         :position :fixed
+         :top      :0
+         :left     :0
+         :right    :0
+         :h        :$nav-height
+         :pi       :$padding-inline
+         :pb       :$padding-block})
+    [:h1 "Kushi Quickstart"]
+    [badges/links]
+    [:div (sx :.flex-row-fe)
+     [light-dark-mode-switch]]]
 
-     ;; The color tokens (css vars) below are defined globally in the :theme
-     ;; entry in the project's kushi.edn config file.
-     [:div
-      [headline-layer "var(--howlite-blue)" :12s]
-      [headline-layer "var(--canary-yellow)" :3s]
-      [headline-layer "var(--deep-fuscsia)" :6s]]
-     [twirling-subheader "kushi × shadow-cljs quickstart"]]]
-   [badges/links]])
+
+   [:section 
+    (sx :.flex-col-fs
+        {:gap :4rem
+         :pi  :$padding-inline
+         :mbs :$nav-height
+         :pb  :4rem})
+     
+    [:section (sx :>p:margin-block--1em)
+     [:p.prose "Below is a small sampling of Kushi UI compoents."]
+     [:p.prose
+      "Check out " 
+      [:a (merge-attrs
+           (sx :td--u)
+           {:href "https://kushi.design" :_target :blank}) 
+       "kushi.design"] 
+      " for more component samples and documentation."]]
+
+    [samples
+     {:-label "Button"}
+     [button "Button"]
+     [button {:-colorway :accent} "Button"]
+     [button {:-colorway :positive} "Button"]
+     [button {:-colorway :warning} "Button"]
+     [button {:-colorway :negative} "Button"]]
+    
+    [samples
+     {:-label "Tag"}
+     [tag "Neutral"]
+     [tag {:-colorway :accent} "Pending"]
+     [tag {:-colorway :positive} "Successful"]
+     [tag {:-colorway :warning} "Waiting"]
+     [tag {:-colorway :negative} "Rejected"]]
+
+    [samples
+     (merge-attrs {:-label "Callout"}
+                  (sx {" .examples:flex-direction" :column}))
+     [callout {:-header-text "This is a callout component with an icon."
+               :-icon        [icon :info]}]
+     [callout {:-colorway    :accent
+               :-header-text "This is a callout component with an icon."
+               :-icon        [icon :info]}]
+     [callout {:-colorway    :positive
+               :-header-text "This is a callout component with an icon."
+               :-icon        [icon :info]}]
+     [callout {:-colorway    :warning
+               :-header-text "This is a callout component with an icon."
+               :-icon        [icon :info]}]
+     [callout {:-colorway    :negative
+               :-header-text "This is a callout component with an icon."
+               :-icon        [icon :info]}]]
+    
+    ;; A card component. The styles in this are written with Kushi's tokenized
+    ;; keyword syntax (instead of a maps).
+    [samples 
+     {:-label "Card"}
+     [card
+      (sx :w--fit-content)
+      [:div (sx :.flex-row-fs
+                :.neutralize
+                :ai--stretch
+                :gap--0.8em)
+       [:div (sx :.rounded
+                 :position--relative
+                 :overflow--hidden
+                 :.transition
+                 :bgc--$neutral-200
+                 :dark:bgc--$neutral-800
+                 :w--3.5em
+                 :h--3.5em)
+        [:span (sx :.absolute-centered
+                   [:transform "translate(0, 0.045em)"]
+                   :display--block
+                   :scale--2.55)
+         "🐻‍❄"]]
+       [:section (sx :.flex-col-sa) 
+        [:p (sx :fs--1.25em :fw--$wee-bold) "Polar Bear"] 
+        [:p (sx :c--$secondary-foreground-color
+                :dark:c--$secondary-foreground-dark-mode)
+         "polar.bear@example.com"]]]]]
+    
+    [samples 
+     {:-label "Switch"}
+     [switch (sx :.xxlarge {:-colorway :neutral})]
+     [switch (sx :.xxlarge {:-colorway :accent})]
+     [switch (sx :.xxlarge {:-colorway :positive})]
+     [switch (sx :.xxlarge {:-colorway :warning})]
+     [switch (sx :.xxlarge {:-colorway :negative})]
+     ]
+
+    [samples
+     {:-label "Radio"}
+     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name           :xxxlarge-sample
+                                                         :defaultChecked true}})]
+     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
+     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
+     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
+     ]
+
+    [samples
+     (merge-attrs {:-label "Text field"}
+                  (sx {" .examples:flex-direction" :column
+                       " .examples:ai"             :fs
+                       " .examples:gap"            :2rem}))
+     [text-field
+      {:placeholder "Your text here"
+       :-label      "Input label"
+       :-helper     "My helper text"}]
+
+     [text-field
+      {:placeholder "Your text here"
+       :required    true
+       :-label      "Input label"
+       :-helper     "My helper text"}]
+     
+     [text-field
+      {:placeholder "Your text here"
+       :-textarea?  true
+       :-label      "Input label"
+       :-helper     "My helper text"}]]]])
 
 
 ;; Below is boilerplate code from
@@ -239,12 +302,3 @@
 
 ;; this is called before any code is reloaded
 (defn ^:dev/before-load stop [])
-
-
-;; This will inject the same stylesheet that kushi writes to disk into your
-;; browser, during development builds. You may not need or want to do this
-;; but if you are experiencing visual jankiness on reloads when devving,
-;; this can help.
-
-;; (when ^boolean js/goog.DEBUG
-;;   (inject!))
