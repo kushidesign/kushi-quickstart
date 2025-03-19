@@ -174,7 +174,7 @@
          :pb  :4rem})
      
     [:section (sx :>p:margin-block--1em)
-     [:p.prose "Below is a small sampling of Kushi UI compoents."]
+     [:p.prose "Below is a small sampling of Kushi UI components."]
      [:p.prose
       "Check out " 
       [:a (merge-attrs
@@ -185,35 +185,40 @@
 
     [samples
      {:-label "Button"}
-     [button "Button"]
-     [button {:-colorway :accent} "Button"]
-     [button {:-colorway :positive} "Button"]
-     [button {:-colorway :warning} "Button"]
-     [button {:-colorway :negative} "Button"]]
+     [button {:-colorway :neutral :-surface :outline} "Button"]
+     [button {:-colorway :accent :-surface :outline} "Button"]
+     [button {:-colorway :positive :-surface :outline} "Button"]
+     [button {:-colorway :warning :-surface :outline} "Button"]
+     [button {:-colorway :negative :-surface :outline} "Button"]]
     
     [samples
      {:-label "Tag"}
-     [tag "Neutral"]
-     [tag {:-colorway :accent} "Pending"]
-     [tag {:-colorway :positive} "Successful"]
-     [tag {:-colorway :warning} "Waiting"]
-     [tag {:-colorway :negative} "Rejected"]]
+     [tag {:-colorway :neutral :-surface :outline} "Neutral"]
+     [tag {:-colorway :accent :-surface :outline} "Pending"]
+     [tag {:-colorway :positive :-surface :outline} "Successful"]
+     [tag {:-colorway :warning :-surface :outline} "Waiting"]
+     [tag {:-colorway :negative :-surface :outline} "Rejected"]]
 
     [samples
      (merge-attrs {:-label "Callout"}
                   (sx {" .examples:flex-direction" :column}))
      [callout {:-header-text "This is a callout component with an icon."
+               :-surface     :outline
                :-icon        [icon :info]}]
      [callout {:-colorway    :accent
+               :-surface     :outline
                :-header-text "This is a callout component with an icon."
                :-icon        [icon :info]}]
      [callout {:-colorway    :positive
+               :-surface     :outline
                :-header-text "This is a callout component with an icon."
                :-icon        [icon :info]}]
      [callout {:-colorway    :warning
+               :-surface     :outline
                :-header-text "This is a callout component with an icon."
                :-icon        [icon :info]}]
      [callout {:-colorway    :negative
+               :-surface     :outline
                :-header-text "This is a callout component with an icon."
                :-icon        [icon :info]}]]
     
@@ -257,11 +262,15 @@
 
     [samples
      {:-label "Radio"}
-     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name           :xxxlarge-sample
-                                                         :defaultChecked true}})]
-     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
-     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
-     [radio (merge-attrs (sx :.xxxlarge) {:-input-attrs {:name :xxxlarge-sample}})]
+     [radio (merge-attrs (sx :.xxxlarge) 
+                         {:-input-attrs {:name           :xxxlarge-sample
+                                         :defaultChecked true}})]
+     [radio (merge-attrs (sx :.xxxlarge) 
+                         {:-input-attrs {:name :xxxlarge-sample}})]
+     [radio (merge-attrs (sx :.xxxlarge) 
+                         {:-input-attrs {:name :xxxlarge-sample}})]
+     [radio (merge-attrs (sx :.xxxlarge) 
+                         {:-input-attrs {:name :xxxlarge-sample}})]
      ]
 
     [samples
