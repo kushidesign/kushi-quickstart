@@ -253,15 +253,14 @@
     
     [samples 
      {:-label "Switch"}
-     [switch (sx :.xxlarge {:-colorway :neutral})]
-     [switch (sx :.xxlarge {:-colorway :accent})]
-     [switch (sx :.xxlarge {:-colorway :positive})]
-     [switch (sx :.xxlarge {:-colorway :warning})]
-     [switch (sx :.xxlarge {:-colorway :negative})]
-     ]
+     [switch (merge-attrs (sx :.xxlarge) {:-on? true :-colorway :neutral})]
+     [switch (merge-attrs (sx :.xxlarge) {:-on? true :-colorway :accent})]
+     [switch (merge-attrs (sx :.xxlarge) {:-on? true :-colorway :positive})]
+     [switch (merge-attrs (sx :.xxlarge) {:-on? true :-colorway :warning})]
+     [switch (merge-attrs (sx :.xxlarge) {:-on? true :-colorway :negative})]]
 
     [samples
-     {:-label "Radio"}
+     {:-label "Radio Group"}
      [radio (merge-attrs (sx :.xxxlarge) 
                          {:-input-attrs {:name           :xxxlarge-sample
                                          :defaultChecked true}})]
