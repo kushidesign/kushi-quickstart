@@ -38,16 +38,17 @@
         {:src (:badge-src opts)})]]]))
 
 ;; Usage of the components defined above.
-(defn links []
-  [:div
-   (sx :.flex-row-c )
-   [:div
-    (sx :.flex-row-sa :w--100px :>button:display--inline-flex)
-    [icon-badge-link
-     {:href       "https://github.com/kushidesign/kushi"
-      :target     :_blank
-      :-badge-src "graphics/github.svg"}]
-    [icon-badge-link
-     {:href       "https://clojars.org/design.kushi/kushi"
-      :target     :_blank
-      :-badge-src "graphics/clojars-logo-bw2.png"}]]])
+(defn links [& args]
+  (let [[opts attrs children] (opts+children args)]
+    [:div
+     (merge-attrs (sx :.flex-row-c) attrs)
+     [:div
+      (sx :.flex-row-sa :w--100px :>button:display--inline-flex)
+      [icon-badge-link
+       {:href       "https://github.com/kushidesign/kushi"
+        :target     :_blank
+        :-badge-src "graphics/github.svg"}]
+      [icon-badge-link
+       {:href       "https://clojars.org/design.kushi/kushi"
+        :target     :_blank
+        :-badge-src "graphics/clojars-logo-bw2.png"}]]]))
