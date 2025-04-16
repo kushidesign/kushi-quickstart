@@ -437,11 +437,11 @@
         [switch
          {:-on?               true
           :-thumb-content-on  [icon (merge-attrs
-                                     (sx :fs--0.3em)
+                                     (sx :fs--0.55em)
                                      {:-icon-filled? true}) 
                                :visibility]
           :-thumb-content-off [icon (merge-attrs 
-                                     (sx :fs--0.3em)
+                                     (sx :fs--0.55em)
                                      {:-icon-filled? true})
                                :visibility-off]}]]]]
 
