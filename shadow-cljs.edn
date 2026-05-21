@@ -7,14 +7,23 @@
 
  :builds
  {:app
-  {:devtools         {:log false}
-   :target           :browser
-   ;; :compiler-options {:output-feature-set :es8}
-   :modules          {:main {:init-fn starter.browser/init}}
-   :build-hooks      [
+  {:devtools    {:log false}
+   :target      :browser
+  ;;  :js-options  {:keep-as-import #{"CanvasSpliner"}}
+  ;;  :compiler-options {:output-feature-set :es8}
+   :modules     {:main {:init-fn starter.browser/init}}
+   :build-hooks [
                       ;; Add Kushi build hook
-                      (kushi.css.build.analyze/hook)
+                 (kushi.css.build.analyze/hook)
 
                       ;; This is optional but adds a nice build report for release builds
-                      (shadow.cljs.build-report/hook
-                       {:output-to "tmp/report.html"})]}}}
+                 (shadow.cljs.build-report/hook
+                  {:output-to "tmp/report.html"})]
+   :release     {:build-options {:ns-aliases {bling.core     bling.stubs.core
+                                              bling.explain  bling.stubs.explain
+                                              bling.hifi     bling.stubs.hifi
+                                              fireworks.core fireworks.stubs.core
+                                              fireworks.pp   fireworks.stubs.pp
+                                              }}}
+   }}}
+                 
